@@ -23,17 +23,20 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
-    addUser(socket, user.id);
+    user = addUser(socket, user.id);
 
-    // const gameSession = addGameSession(gameId);
-    // const _user = getUserById(user.id);
-    // if (!_user) {
-    //   throw new CustomError(
-    //     ErrorCodes.USER_NOT_FOUND,
-    //     '유저를 찾을 수 없습니다.',
-    //   );
-    // }
-    // gameSession.addUser(_user);
+    const gameSession = addGameSession();
+    gameSession.setGameId();
+
+    if (!user) {
+      throw new CustomError(
+        ErrorCodes.USER_NOT_FOUND,
+        '유저를 찾을 수 없습니다.',
+      );
+    }
+    // 게임 세션에 유저를 추가하고, 유저에게 게임 세션의 id를 부여한다.
+    gameSession.addUser(user);
+    user.setGameId(gameSession.id);
 
     const initailResponse = createResponse(
       HANDLER_IDS.INITIAL,

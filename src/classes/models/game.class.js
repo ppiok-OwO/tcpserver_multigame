@@ -3,19 +3,22 @@ import {
   gameStartNotification,
 } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
-import { v4 as uuidv4 } from 'uuid';
 
 const MAX_PLAYERS = 2;
 
 class Game {
   constructor() {
     this.users = [];
-    this.intervalManager = new IntervalManager();
+    // this.intervalManager = new IntervalManager();
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
-  setGameId() {
-    this.id = uuidv4();
+  setGameId(id) {
+    this.id = id;
+  }
+
+  getGameId() {
+    return this.id;
   }
 
   addUser(user) {
@@ -23,17 +26,17 @@ class Game {
       throw new Error('Game session is full');
     }
     this.users.push(user);
-    this.intervalManager.addPlayer(
-      user.id,
-      user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
-      1000, // 1초마다 핑 측정
-    );
+    // this.intervalManager.addPlayer(
+    //   user.id,
+    //   user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
+    //   1000, // 1초마다 핑 측정
+    // );
 
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
+    // if (this.users.length === MAX_PLAYERS) {
+    //   setTimeout(() => {
+    //     this.startGame();
+    //   }, 3000);
+    // }
   }
 
   getUser(userId) {
