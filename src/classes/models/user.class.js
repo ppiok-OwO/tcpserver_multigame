@@ -14,6 +14,10 @@ class User {
     this.playerId = playerId;
   }
 
+  setGameId(gameId) {
+    this.gameId = gameId;
+  }
+
   updatePosition(x, y) {
     this.x = x;
     this.y = y;

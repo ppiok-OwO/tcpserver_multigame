@@ -1,0 +1,11 @@
+{
+  "name": "wave",
+  "version": "1.0.0",
+  "data": [
+    { "id": 1000, "monsterLv": 0 },
+    { "id": 1001, "monsterLv": 1 },
+    { "id": 1002, "monsterLv": 2 },
+    { "id": 1003, "monsterLv": 3 },
+    { "id": 1004, "monsterLv": 4 }
+  ]
+}

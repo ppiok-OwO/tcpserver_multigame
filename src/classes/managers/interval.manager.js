@@ -1,7 +1,7 @@
 import BaseManager from './base.manager.js';
 
 // intervals의 구조
-// { playerId: { type1: setInterval1, type2: setInterval2, ... } }
+// { userId: { type1: setInterval1, type2: setInterval2, ... } }
 
 class IntervalManager extends BaseManager {
   constructor() {
@@ -9,32 +9,32 @@ class IntervalManager extends BaseManager {
     this.intervals = new Map();
   }
 
-  addPlayer(playerId, callback, interval, type = 'user') {
-    if (!this.intervals.has(playerId)) {
-      this.intervals.set(playerId, new Map());
+  addPlayer(userId, callback, interval, type = 'user') {
+    if (!this.intervals.has(userId)) {
+      this.intervals.set(userId, new Map());
     }
-    this.intervals.get(playerId).set(type, setInterval(callback, interval));
+    this.intervals.get(userId).set(type, setInterval(callback, interval));
   }
 
   addGame(gameId, callback, interval) {
     this.addPlayer(gameId, callback, interval, 'game');
   }
 
-  addUpdatePosition(playerId, callback, interval) {
-    this.addPlayer(playerId, callback, interval, 'updatePosition');
+  addUpdatePosition(userId, callback, interval) {
+    this.addPlayer(userId, callback, interval, 'updatePosition');
   }
 
-  removePlayer(playerId) {
-    if (this.intervals.has(playerId)) {
-      const userIntervals = this.intervals.get(playerId);
+  removePlayer(userId) {
+    if (this.intervals.has(userId)) {
+      const userIntervals = this.intervals.get(userId);
       userIntervals.forEach((intervalId) => clearInterval(intervalId));
-      this.intervals.delete(playerId);
+      this.intervals.delete(userId);
     }
   }
 
-  removeInterval(playerId, type) {
-    if (this.intervals.has(playerId)) {
-      const userIntervals = this.intervals.get(playerId);
+  removeInterval(userId, type) {
+    if (this.intervals.has(userId)) {
+      const userIntervals = this.intervals.get(userId);
       if (userIntervals.has(type)) {
         clearInterval(userIntervals.get(type));
         userIntervals.delete(type);
