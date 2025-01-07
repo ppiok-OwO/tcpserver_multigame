@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package response; // 네임 스페이스
+
+// 공통 응답 메시지 구조
+message Response {
+  uint32 handlerId = 1;
+  uint32 responseCode = 2;
+  int64 timestamp = 3;
+  bytes data = 4;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package game;
+
+// 위치 정보 업데이트
+message LocationUpdatePayload {
+  float x = 1;
+  float y = 2;
+}
