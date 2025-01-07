@@ -1,0 +1,25 @@
+// payload의 protobuf 스키마 파일
+syntax = "proto3";
+
+package initial; // 네임 스페이스
+
+// 최초 패킷 구조
+message InitialPayload {
+  string deviceId = 1; // 필수
+  uint32 playerId = 2; // 필수
+  float latency = 3; // 필수
+}
+
+// Protobuf.js는 위 메시지를 다음과 같이 표현합니다:
+/**
+PayloadType = {
+  fields: {
+    deviceId: {
+      type: "string",  // 필드의 데이터 타입
+      id: 1            // 필드 번호
+    }
+  }
+};
+**/
+
+// 이게 뭔 말이냐면 내가 정의한 필드는 deviceId 하나 뿐이지만, Protobuf.js 모듈은 모든 필드를 아우르는 fields라는 필드를 한 겹 더 생성한다. 우리는 이 fields를 통해 내부 필드에 접근할 수 있다.
