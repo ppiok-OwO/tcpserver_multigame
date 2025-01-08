@@ -7,6 +7,8 @@ import { getUserById, getUserBySocket } from '../session/user.session.js';
 import { getProtoMessages } from '../init/loadProtos.js';
 import CustomError from '../utils/error/custom.error.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
+import initialHandler from '../handlers/user/initial.handler.js';
+import updateLocationHandler from '../handlers/game/updateLocation.handler.js';
 
 // 데이터는 스트림을 통해 청크단위로 조금씩 전송받게 되는데 우리가 원하는 데이터가 들어올때까지 계속 대기하다가 원하는 데이터가 도착하면 처리하는 형태입니다.
 export const onData = (socket) => async (data) => {
@@ -58,16 +60,14 @@ export const onData = (socket) => async (data) => {
             const { handlerId, payload, userId } = packetParser(packet);
 
             const user = getUserById(userId);
-            // 유저가 접속해 있는 상황에서 시퀀스 검증
-            // if (user && user.sequence !== sequence) {
-            //   throw new CustomError(
-            //     ErrorCodes.INVALID_SEQUENCE,
-            //     '잘못된 호출 값입니다. ',
-            //   );
-            // }
 
             // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
             const handler = getHandlerById(handlerId);
+
+            if (handler === initialHandler) {
+              console.log('이니셜 패킷 도착!');
+            }
+
             // 함수 호출
             await handler({
               socket,
@@ -80,12 +80,19 @@ export const onData = (socket) => async (data) => {
             const user = getUserById(userId);
             // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
             const handler = getHandlerById(handlerId);
+
+            if (handler === updateLocationHandler) {
+              console.log('위치동기화 패킷 도착!');
+            }
+
             // 함수 호출
-            await handler({
-              socket,
-              userId,
-              payload,
-            });
+            // await handler({
+            //   socket,
+            //   userId,
+            //   payload,
+            // });
+
+            // return;
           }
         }
       } catch (error) {
