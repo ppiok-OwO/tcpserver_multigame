@@ -44,7 +44,6 @@ class User {
   calculatePosition(latency, velocityX, velocityY) {
     // 세션 내 최고 레이턴시를 인자로 받는다.
     const timeDiff = latency / 1000; // 레이턴시를 초 단위로 계산
-    const speed = 1; // 편의를 위해 속도 고정
     const distanceX = velocityX * timeDiff;
     const distanceY = velocityY * timeDiff;
 
