@@ -66,6 +66,8 @@ export const onData = (socket) => async (data) => {
 
             if (handler === initialHandler) {
               console.log('이니셜 패킷 도착!');
+            } else if (handler === updateLocationHandler) {
+              console.log('위치동기화 패킷 도착!');
             }
 
             // 함수 호출
@@ -74,25 +76,6 @@ export const onData = (socket) => async (data) => {
               userId,
               payload,
             });
-          }
-          case PACKET_TYPE.LOCATION: {
-            const { handlerId, payload, userId } = packetParser(packet);
-            const user = getUserById(userId);
-            // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
-            const handler = getHandlerById(handlerId);
-
-            if (handler === updateLocationHandler) {
-              console.log('위치동기화 패킷 도착!');
-            }
-
-            // 함수 호출
-            // await handler({
-            //   socket,
-            //   userId,
-            //   payload,
-            // });
-
-            // return;
           }
         }
       } catch (error) {
