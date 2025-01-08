@@ -64,11 +64,11 @@ export const onData = (socket) => async (data) => {
             // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
             const handler = getHandlerById(handlerId);
 
-            if (handler === initialHandler) {
-              console.log('이니셜 패킷 도착!');
-            } else if (handler === updateLocationHandler) {
-              console.log('위치동기화 패킷 도착!');
-            }
+            // if (handler === initialHandler) {
+            //   console.log('이니셜 패킷 도착!');
+            // } else if (handler === updateLocationHandler) {
+            //   console.log('위치동기화 패킷 도착!');
+            // }
 
             // 함수 호출
             await handler({

@@ -1,5 +1,6 @@
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
+import { getUserById } from './user.session.js';
 
 export const addGameSession = () => {
   const session = new Game();
@@ -26,4 +27,22 @@ export const getGameSession = (id) => {
 
 export const getAllGameSessions = () => {
   return gameSessions;
+};
+
+export const getUserLocationInSession = (session) => {
+  let data = {};
+  data.users = [];
+
+  for (const element of session) {
+    const user = getUserById(element.id);
+
+    data.users.push({
+      id: user.id,
+      playerId: user.playerId,
+      x: user.x,
+      y: user.y,
+    });
+  }
+
+  return data;
 };

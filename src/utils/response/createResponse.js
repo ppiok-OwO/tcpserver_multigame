@@ -33,7 +33,21 @@ export const createResponse = (
   );
   // (2) 패킷 타입을 적어주는 공간 할당
   const packetType = Buffer.alloc(config.packet.typeLength);
-  packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
+
+  // 핸들러 ID에 따라 각기 헤더의 패킷 타입을 다르게 적어준다.
+  switch (handlerId) {
+    case 0:
+      packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
+      break;
+    // case 1:
+    //   packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
+    //   break;
+    case 2:
+      packetType.writeUInt8(PACKET_TYPE.LOCATION, 0);
+      break;
+    default:
+      break;
+  }
 
   return Buffer.concat([packetLength, packetType, buffer]);
 };

@@ -13,20 +13,35 @@ import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    console.log('이니셜 핸들러 실행!');
+    // console.log('이니셜 핸들러 실행!');
 
     const { deviceId, playerId, latency } = payload;
 
+    // console.log('플레이어 id야 나와라', playerId);
+
+    // DB에서 유저 데이터를 찾는다.
     let user = await findUserByDeviceID(deviceId);
+    let x = null;
+    let y = null;
+
+    // console.log('DB에서 검색된 유저:', user);
+
+    console.log(
+      '플레이어의 마지막 위치: ',
+      user.lastLocationX,
+      user.lastLocationY,
+    );
 
     if (!user) {
       user = await createUser(deviceId, playerId, latency);
     } else {
       await updateUserLogin(user.id);
+      x = user.lastLocationX;
+      y = user.lastLocationY;
     }
 
     // 유저 세션에 유저 추가, 유저 객체 반환
-    user = addUser(socket, user.id);
+    user = addUser(socket, user.id, playerId, x, y);
 
     if (!user) {
       throw new CustomError(
@@ -45,7 +60,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
     const initailResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId: user.id, playerId: playerId },
+      { userId, x: user.x, y: user.y },
       deviceId,
     );
 
