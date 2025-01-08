@@ -9,6 +9,7 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
     const { x, y } = payload;
     const user = await getUserById(userId);
     const gameId = user.gameId;
+
     const gameSession = getGameSession(gameId);
 
     if (!gameSession) {

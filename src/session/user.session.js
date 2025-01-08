@@ -1,4 +1,4 @@
-import { userSessions } from './sessions.js';
+import { gameSessions, userSessions } from './sessions.js';
 import User from '../classes/models/user.class.js';
 
 // sequence는 호출 횟수
@@ -11,6 +11,7 @@ export const addUser = (socket, uuid) => {
 export const removeUser = (socket) => {
   const index = userSessions.findIndex((user) => user.socket === socket);
   if (index !== -1) {
+    // const sessionIndex = gameSessions.findIndex((game)=> game.users.incluses())
     return userSessions.splice(index, 1)[0];
   }
 };

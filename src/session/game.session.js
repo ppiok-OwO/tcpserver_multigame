@@ -1,12 +1,15 @@
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
-import { v4 as uuidv4 } from 'uuid';
 
 export const addGameSession = () => {
-  const sessionId = uuidv4();
   const session = new Game();
-  session.setGameId(sessionId);
   gameSessions.push(session);
+
+  // console.log('gameSessions', gameSessions);
+  // console.log('users', gameSessions.users);
+
+  console.log('게임 세션 생성!');
+
   return session;
 };
 

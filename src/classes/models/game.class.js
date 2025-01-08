@@ -3,6 +3,7 @@ import {
   gameStartNotification,
 } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const MAX_PLAYERS = 2;
 
@@ -11,10 +12,7 @@ class Game {
     this.users = [];
     // this.intervalManager = new IntervalManager();
     this.state = 'waiting'; // 'waiting', 'inProgress'
-  }
-
-  setGameId(id) {
-    this.id = id;
+    this.id = uuidv4();
   }
 
   getGameId() {

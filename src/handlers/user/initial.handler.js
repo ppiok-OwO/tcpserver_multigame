@@ -13,6 +13,8 @@ import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
+    console.log('이니셜 핸들러 실행!');
+
     const { deviceId, playerId, latency } = payload;
 
     let user = await findUserByDeviceID(deviceId);
@@ -23,10 +25,8 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
+    // 유저 세션에 유저 추가, 유저 객체 반환
     user = addUser(socket, user.id);
-
-    const gameSession = addGameSession();
-    gameSession.setGameId();
 
     if (!user) {
       throw new CustomError(
@@ -34,9 +34,13 @@ const initialHandler = async ({ socket, userId, payload }) => {
         '유저를 찾을 수 없습니다.',
       );
     }
-    // 게임 세션에 유저를 추가하고, 유저에게 게임 세션의 id를 부여한다.
-    gameSession.addUser(user);
+
+    // 게임 객체를 만들고 유저에게 게임 객체의 id(uuid)를 부여
+    const gameSession = addGameSession();
     user.setGameId(gameSession.id);
+
+    // 게임 세션에 유저를 추가
+    gameSession.addUser(user);
 
     const initailResponse = createResponse(
       HANDLER_IDS.INITIAL,
