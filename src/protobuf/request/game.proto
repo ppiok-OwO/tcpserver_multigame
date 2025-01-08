@@ -7,3 +7,10 @@ message LocationUpdatePayload {
   float x = 1;
   float y = 2;
 }
+
+message PositionVelocity {
+  float x = 1;
+  float y = 2;
+  float velocityX = 3;
+  float velocityY = 4;
+}

@@ -4,13 +4,14 @@
 export const packetNames = {
   common: {
     CommonPacket: 'common.CommonPacket',
-    Ping: 'common.Ping'
+    Ping: 'common.Ping',
   },
   initial: {
     InitialPayload: 'initial.InitialPayload',
   },
   game: {
     LocationUpdatePayload: 'game.LocationUpdatePayload',
+    PositionVelocity: 'game.PositionVelocity',
   },
   response: {
     Response: 'response.Response',
