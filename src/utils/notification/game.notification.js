@@ -30,12 +30,22 @@ export const gameStartNotification = (gameId, timestamp) => {
 
 export const createLocationPacket = (users) => {
   const protoMessages = getProtoMessages();
-  const Location = protoMessages.gameNotification.LocationUpdate;
+  const Location = protoMessages.game.LocationUpdatePayload;
 
   const payload = { users };
   const message = Location.create(payload);
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+};
+
+export const targetLocationPacket = (location) => {
+  const protoMessages = getProtoMessages();
+  const Location = protoMessages.game.PositionVelocity;
+
+  const payload = { location };
+  const message = Location.create(payload);
+  const locationPacket = Location.encode(message).finish();
+  return makeNotification(locationPacket, PACKET_TYPE.NORMAL);
 };
 
 export const createPingPacket = (timestamp) => {

@@ -26,12 +26,6 @@ const initialHandler = async ({ socket, userId, payload }) => {
 
     // console.log('DB에서 검색된 유저:', user);
 
-    console.log(
-      '플레이어의 마지막 위치: ',
-      user.lastLocationX,
-      user.lastLocationY,
-    );
-
     if (!user) {
       user = await createUser(deviceId, playerId, latency);
     } else {
