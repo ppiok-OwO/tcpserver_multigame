@@ -2,8 +2,8 @@ import { gameSessions, userSessions } from './sessions.js';
 import User from '../classes/models/user.class.js';
 
 // sequence는 호출 횟수
-export const addUser = (socket, uuid) => {
-  const user = new User(uuid, socket);
+export const addUser = (socket, uuid, playerId, x, y) => {
+  const user = new User(uuid, socket, playerId, x, y);
   userSessions.push(user);
   return user;
 };

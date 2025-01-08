@@ -3,4 +3,6 @@ export const SQL_QUERIES = {
   CREATE_USER: 'INSERT INTO user (id) VALUES (?)',
   UPDATE_USER_LOGIN:
     'UPDATE user SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
+  UPDATE_LAST_LOCATION:
+    'UPDATE user SET last_location_x = ?, last_location_y = ? WHERE id = ?;',
 };

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import pools from '../database.js';
 import { SQL_QUERIES } from './user.queries.js';
 import { toCamelCase } from '../../utils/transformCase.js';
@@ -18,4 +17,8 @@ export const createUser = async (deviceId) => {
 
 export const updateUserLogin = async (id) => {
   await pools.USER_DB.query(SQL_QUERIES.UPDATE_USER_LOGIN, [id]);
+};
+
+export const updateLastLocation = async (x, y, id) => {
+  await pools.USER_DB.query(SQL_QUERIES.UPDATE_LAST_LOCATION, [x, y, id]);
 };
