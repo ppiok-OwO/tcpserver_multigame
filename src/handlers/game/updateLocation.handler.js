@@ -3,6 +3,7 @@ import CustomError from '../../utils/error/custom.error.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { addGameSession, getGameSession } from '../../session/game.session.js';
 import { getUserById } from '../../session/user.session.js';
+import { userSessions } from '../../session/sessions.js';
 
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
