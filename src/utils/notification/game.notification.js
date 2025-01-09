@@ -40,10 +40,13 @@ export const createLocationPacket = (users) => {
 
 export const targetLocationPacket = (location) => {
   const protoMessages = getProtoMessages();
-  const Location = protoMessages.game.PositionVelocity;
+  const Location = protoMessages.game.LocationUpdatePayload;
 
   const payload = { location };
+  // console.log('payload: ', payload);
+
   const message = Location.create(payload);
+  // console.log('message: ', message);
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.NORMAL);
 };
