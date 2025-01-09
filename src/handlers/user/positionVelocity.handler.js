@@ -21,7 +21,7 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
       velocityY,
     );
 
-    console.log('다음 좌표는 여기! : ', targetLocation);
+    // console.log('다음 좌표는 여기! : ', targetLocation);
 
     // 클라이언트로 다시 보내주기
     const data = targetLocationPacket(targetLocation);
@@ -32,6 +32,8 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
       data,
       userId,
     );
+
+    // console.log('data', data);
 
     socket.write(targetLocationResponse);
   } catch (err) {
