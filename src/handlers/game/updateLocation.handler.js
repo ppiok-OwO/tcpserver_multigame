@@ -5,6 +5,7 @@ import { addGameSession, getGameSession } from '../../session/game.session.js';
 import { getUserById } from '../../session/user.session.js';
 import { userSessions } from '../../session/sessions.js';
 
+// 현재 안 쓰이고 있음!!!
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
     const { x, y } = payload;

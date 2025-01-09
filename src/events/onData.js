@@ -67,7 +67,8 @@ export const onData = (socket) => async (data) => {
 
               // if (handler === initialHandler) {
               //   console.log('이니셜 패킷 도착!');
-              // } else if (handler === updateLocationHandler) {
+              // }
+              // else if (handler === updateLocationHandler) {
               //   console.log('위치동기화 패킷 도착!');
               // }
 
