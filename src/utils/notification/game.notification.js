@@ -39,6 +39,7 @@ export const createLocationPacket = (users) => {
 };
 
 export const targetLocationPacket = (location) => {
+  // JSON으로 써야 한다.(클라 쪽)
   const protoMessages = getProtoMessages();
   const Location = protoMessages.game.LocationUpdatePayload;
 
@@ -51,7 +52,7 @@ export const targetLocationPacket = (location) => {
   const locationPacket = Location.encode(message).finish();
   console.log('locationPacket: ', locationPacket);
 
-  return makeNotification(locationPacket, PACKET_TYPE.NORMAL);
+  return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
 };
 
 export const createPingPacket = (timestamp) => {
