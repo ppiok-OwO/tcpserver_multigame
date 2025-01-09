@@ -81,6 +81,8 @@ export const onData = (socket) => async (data) => {
             break;
           case PACKET_TYPE.LOCATION:
             {
+              // const { payload, userId } = packetParser(packet);
+              // updateLocationHandler({ socket, userId, payload });
             }
             break;
         }

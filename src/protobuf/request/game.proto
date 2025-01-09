@@ -8,6 +8,17 @@ message LocationUpdatePayload {
   float y = 2;
 }
 
+message LocationUpdate {
+  repeated UserLocation users = 1;
+
+  message UserLocation {
+      string id = 1;
+      uint32 playerId = 2;
+      float x = 3;
+      float y = 4;
+  }
+}
+
 message PositionVelocity {
   float x = 1;
   float y = 2;
