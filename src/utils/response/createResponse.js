@@ -39,14 +39,14 @@ export const createResponse = (
     case 0:
       packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
       break;
-    // case 1:
-    //   packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
-    //   break;
+    case 1:
+      packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
+      break;
     case 2:
-      packetType.writeUInt8(PACKET_TYPE.LOCATION, 0);
+      packetType.writeUInt8(PACKET_TYPE.BROADCAST, 0);
       break;
     case 3:
-      packetType.writeUInt8(PACKET_TYPE.NORMAL, 0);
+      packetType.writeUInt8(PACKET_TYPE.LOCATION, 0);
       break;
     default:
       break;

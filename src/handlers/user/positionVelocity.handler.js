@@ -15,18 +15,13 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
 
     const user = getUserById(userId);
 
-    const targetLocation = user.calculatePosition(
-      user.latency,
-      x,
-      y,
-    );
+    const targetLocation = user.calculatePosition(user.latency, x, y);
 
-    console.log('다음 좌표는 여기! : ', targetLocation);
+    // console.log('다음 좌표는 여기! : ', targetLocation);
 
     // 클라이언트로 다시 보내주기
     const data = targetLocationPacket(targetLocation);
 
-    
     // const targetLocationResponse = createResponse(
     //   HANDLER_IDS.POSITION_VELOCITY,
     //   RESPONSE_SUCCESS_CODE,
@@ -34,7 +29,6 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
     //   userId,
     // );
 
-    
     // console.log('data', data);
 
     // socket.write(targetLocationResponse);

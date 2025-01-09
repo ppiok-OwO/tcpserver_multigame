@@ -7,7 +7,10 @@ import {
 import { handleError } from '../../utils/error/errorHandler.js';
 import { findUserByDeviceID, updateUserLogin } from '../../db/user/user.db.js';
 import { createUser } from '../../db/user/user.db.js';
-import { addGameSession } from '../../session/game.session.js';
+import {
+  addGameSession,
+  getAllGameSessions,
+} from '../../session/game.session.js';
 import CustomError from '../../utils/error/custom.error.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
@@ -44,12 +47,21 @@ const initialHandler = async ({ socket, userId, payload }) => {
       );
     }
 
-    // 게임 객체를 만들고 유저에게 게임 객체의 id(uuid)를 부여
-    const gameSession = addGameSession();
+    // 게임 세션이 없으면 객체를 만들고 유저에게 게임 객체의 id(uuid)를 부여
+    // 기존 게임 세션이 있는지 확인
+    let gameSession = getAllGameSessions()[0];
+
+    if (!gameSession) {
+      // 게임 세션이 없으면 새로 생성
+      gameSession = addGameSession();
+    }
+
     user.setGameId(gameSession.id);
 
     // 게임 세션에 유저를 추가
     gameSession.addUser(user);
+
+    console.log('접속 중인 유저들', gameSession.users);
 
     const initailResponse = createResponse(
       HANDLER_IDS.INITIAL,

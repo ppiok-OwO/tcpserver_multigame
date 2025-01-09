@@ -7,11 +7,8 @@ import { userSessions } from '../../session/sessions.js';
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
 
 // 현재 안 쓰이고 있음!!!
-const updateLocationHandler = async ({ socket, userId, payload }) => {
+const updateLocationHandler = async (socket, userId) => {
   try {
-    // const { x, y } = payload;
-    // 이 좌표는 나중에 검증용으로 쓸까?
-
     const user = await getUserById(userId);
     const gameId = user.gameId;
 
@@ -30,16 +27,11 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
         '유저를 찾을 수 없습니다.',
       );
     }
+    const data = createLocationPacket(gameSession);
 
-    // user.updatePosition(x, y);
-    // const packet = gameSession.getAllLocation();
+    
 
-    const data = createLocationPacket(gameSession.users);
-
-    // console.log('data: ', data);
-    // console.log('gameSession.users: ', gameSession.users);
-
-    socket.write(data);
+    socket.write({ data });
   } catch (error) {
     handleError(socket, error);
   }
