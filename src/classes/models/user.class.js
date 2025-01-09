@@ -7,6 +7,7 @@ class User {
     this.x = x ?? 0;
     this.y = y ?? 0;
     // this.sequence = 0;
+    this.latency = 0;
     this.lastUpdateTime = Date.now();
     this.playerId = playerId;
   }
@@ -41,17 +42,18 @@ class User {
   }
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
-  calculatePosition(latency, velocityX, velocityY) {
+  calculatePosition(latency, x, y) {
     // 세션 내 최고 레이턴시를 인자로 받는다.
     const timeDiff = latency / 1000; // 레이턴시를 초 단위로 계산
-    const distanceX = velocityX * timeDiff;
-    const distanceY = velocityY * timeDiff;
+    // const distanceX = velocityX * timeDiff;
+    // const distanceY = velocityY * timeDiff;
+    const speed = 3;
+    const distanceX = speed * x * timeDiff;
+    const distanceY = speed * y * timeDiff;
 
-    // x, y 축에서 이동한 거리 계산
-    return {
-      x: this.x + distanceX,
-      y: this.y + distanceY,
-    };
+    this.updatePosition(this.x + distanceX, this.y + distanceY);
+
+    return { x: this.x, y: this.y };
   }
 }
 

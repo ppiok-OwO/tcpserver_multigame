@@ -9,7 +9,7 @@ import {
 
 export const positionVelocityHandler = ({ socket, userId, payload }) => {
   try {
-    const { x, y, velocityX, velocityY } = payload;
+    const { x, y } = payload;
 
     // console.log('velocity : ', velocityX, velocityY);
 
@@ -17,25 +17,28 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
 
     const targetLocation = user.calculatePosition(
       user.latency,
-      velocityX,
-      velocityY,
+      x,
+      y,
     );
 
-    // console.log('다음 좌표는 여기! : ', targetLocation);
+    console.log('다음 좌표는 여기! : ', targetLocation);
 
     // 클라이언트로 다시 보내주기
     const data = targetLocationPacket(targetLocation);
 
-    const targetLocationResponse = createResponse(
-      HANDLER_IDS.POSITION_VELOCITY,
-      RESPONSE_SUCCESS_CODE,
-      data,
-      userId,
-    );
+    
+    // const targetLocationResponse = createResponse(
+    //   HANDLER_IDS.POSITION_VELOCITY,
+    //   RESPONSE_SUCCESS_CODE,
+    //   targetLocation,
+    //   userId,
+    // );
 
+    
     // console.log('data', data);
 
-    socket.write(targetLocationResponse);
+    // socket.write(targetLocationResponse);
+    socket.write(data);
   } catch (err) {
     handleError(socket, err);
   }
