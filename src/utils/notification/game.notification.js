@@ -42,12 +42,15 @@ export const targetLocationPacket = (location) => {
   const protoMessages = getProtoMessages();
   const Location = protoMessages.game.LocationUpdatePayload;
 
-  const payload = { location };
-  // console.log('payload: ', payload);
+  const payload = location;
+  console.log('payload: ', payload);
 
   const message = Location.create(payload);
-  // console.log('message: ', message);
+  console.log('message: ', message);
+
   const locationPacket = Location.encode(message).finish();
+  console.log('locationPacket: ', locationPacket);
+
   return makeNotification(locationPacket, PACKET_TYPE.NORMAL);
 };
 
