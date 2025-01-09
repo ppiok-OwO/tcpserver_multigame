@@ -30,12 +30,15 @@ export const gameStartNotification = (gameId, timestamp) => {
 
 export const createLocationPacket = (users) => {
   const protoMessages = getProtoMessages();
-  const Location = protoMessages.game.LocationUpdatePayload;
+  const Location = protoMessages.game.LocationUpdate;
 
   const payload = { users };
   const message = Location.create(payload);
+
+  // console.log('message', message);
+
   const locationPacket = Location.encode(message).finish();
-  return makeNotification(locationPacket, PACKET_TYPE.LOCATION);
+  return makeNotification(locationPacket, PACKET_TYPE.BROADCAST);
 };
 
 export const targetLocationPacket = (location) => {

@@ -1,3 +1,4 @@
+import updateLocationHandler from '../../handlers/game/updateLocation.handler.js';
 import { positionVelocityHandler } from '../../handlers/user/positionVelocity.handler.js';
 import {
   createLocationPacket,
@@ -30,17 +31,6 @@ class Game {
       user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
       1000, // 1초마다 핑 측정
     );
-    // this.intervalManager.addUpdatePosition(
-    //   user.id,
-    //   updateLocationHandler,
-    //   1000,
-    // );
-
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
   }
 
   getUser(userId) {
