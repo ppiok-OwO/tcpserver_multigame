@@ -6,8 +6,7 @@ import {
 } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
 import { v4 as uuidv4 } from 'uuid';
-
-const MAX_PLAYERS = 2;
+import { config } from '../../config/config.js';
 
 class Game {
   constructor() {
@@ -22,7 +21,7 @@ class Game {
   }
 
   addUser(user) {
-    if (this.users.length >= MAX_PLAYERS) {
+    if (this.users.length >= config.gameSession.MAX_PLAYERS) {
       throw new Error('Game session is full');
     }
     this.users.push(user);
@@ -42,7 +41,7 @@ class Game {
     this.users = this.users.filter((user) => user.id !== userId);
     this.intervalManager.removePlayer(userId);
 
-    if (this.users.length < MAX_PLAYERS) {
+    if (this.users.length < config.gameSession.MAX_PLAYERS) {
       this.state = 'waiting';
     }
   }
@@ -67,15 +66,15 @@ class Game {
     });
   }
 
-  getAllLocation() {
-    const maxLatency = this.getMaxLatency();
+  // getAllLocation() {
+  //   const maxLatency = this.getMaxLatency();
 
-    const locationData = this.users.map((user) => {
-      const { x, y } = user.calculatePosition(maxLatency);
-      return { id: user.id, x, y };
-    });
-    return createLocationPacket(locationData);
-  }
+  //   const locationData = this.users.map((user) => {
+  //     const { x, y } = user.calculatePosition(maxLatency);
+  //     return { id: user.id, x, y };
+  //   });
+  //   return createLocationPacket(locationData);
+  // }
 }
 
 export default Game;

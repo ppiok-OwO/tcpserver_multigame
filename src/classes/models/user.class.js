@@ -72,14 +72,11 @@ class User {
   };
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
-  calculatePosition(latency, x, y) {
-    // 세션 내 최고 레이턴시를 인자로 받는다.
+  calculatePosition(latency, velocityX, velocityY) {
     const timeDiff = latency / 1000; // 레이턴시를 초 단위로 계산
-    // const distanceX = velocityX * timeDiff;
-    // const distanceY = velocityY * timeDiff;
     const speed = 3;
-    const distanceX = speed * x * timeDiff;
-    const distanceY = speed * y * timeDiff;
+    const distanceX = speed * velocityX * timeDiff; // 속력(스칼라) * X축 속도(단위벡터) * timeDiff
+    const distanceY = speed * velocityY * timeDiff; // 속력(스칼라) * Y축 속도(단위벡터) * timeDiff
 
     this.updatePosition(this.x + distanceX, this.y + distanceY);
 

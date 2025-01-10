@@ -10,6 +10,7 @@ import { createUser } from '../../db/user/user.db.js';
 import {
   addGameSession,
   getAllGameSessions,
+  getEnableGameSession,
 } from '../../session/game.session.js';
 import CustomError from '../../utils/error/custom.error.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
@@ -35,6 +36,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
       x = user.lastLocationX;
       y = user.lastLocationY;
+      // 마지막 게임 세션 ID도 받아오기
     }
 
     // 유저 세션에 유저 추가, 유저 객체 반환
@@ -48,8 +50,10 @@ const initialHandler = async ({ socket, userId, payload }) => {
     }
 
     // 게임 세션이 없으면 객체를 만들고 유저에게 게임 객체의 id(uuid)를 부여
-    // 기존 게임 세션이 있는지 확인
-    let gameSession = getAllGameSessions()[0];
+    // 유저의 마지막 게임 세션ID가 여전히 존재하는지 확인
+
+    // 처음 온 유저라면 기존 게임 세션 중에 빈 곳이 있는지 확인
+    let gameSession = getEnableGameSession();
 
     if (!gameSession) {
       // 게임 세션이 없으면 새로 생성

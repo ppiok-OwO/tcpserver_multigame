@@ -6,7 +6,6 @@ import { getUserById } from '../../session/user.session.js';
 import { userSessions } from '../../session/sessions.js';
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
 
-// 현재 안 쓰이고 있음!!!
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
     // const { x, y } = payload;
