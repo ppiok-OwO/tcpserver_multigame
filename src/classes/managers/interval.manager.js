@@ -24,6 +24,10 @@ class IntervalManager extends BaseManager {
     this.addPlayer(userId, callback, interval, 'updatePosition');
   }
 
+  checkPong(userId, callback, interval) {
+    this.addPlayer(userId, callback, interval, 'checkPong');
+  }
+
   removePlayer(userId) {
     if (this.intervals.has(userId)) {
       const userIntervals = this.intervals.get(userId);

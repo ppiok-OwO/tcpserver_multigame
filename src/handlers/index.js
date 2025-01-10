@@ -4,6 +4,7 @@ import updateLocationHandler from './game/updateLocation.handler.js';
 import CustomError from '../utils/error/custom.error.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 import { positionVelocityHandler } from './user/positionVelocity.handler.js';
+import { disconnectHandler } from './game/disconnect.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -17,6 +18,10 @@ const handlers = {
   [HANDLER_IDS.POSITION_VELOCITY]: {
     handler: positionVelocityHandler,
     protoType: 'game.PositionVelocity',
+  },
+  [HANDLER_IDS.DISCONNECT]: {
+    handler: disconnectHandler,
+    protoType: 'game.Disconnect',
   },
 };
 

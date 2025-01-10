@@ -9,9 +9,15 @@ import CustomError from '../utils/error/custom.error.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 import initialHandler from '../handlers/user/initial.handler.js';
 import updateLocationHandler from '../handlers/game/updateLocation.handler.js';
+import { getGameSession } from '../session/game.session.js';
 
 // 데이터는 스트림을 통해 청크단위로 조금씩 전송받게 되는데 우리가 원하는 데이터가 들어올때까지 계속 대기하다가 원하는 데이터가 도착하면 처리하는 형태입니다.
 export const onData = (socket) => async (data) => {
+  // if (data === 'disconnect') {
+  //   console.log('클라이언트가 연결을 종료했습니다.');
+  //   socket.end(); // 정상적으로 소켓 종료
+  // }
+
   // 기존 버퍼에 새로 수신된 데이터를 추가
   socket.buffer = Buffer.concat([socket.buffer, data]);
 
@@ -47,13 +53,13 @@ export const onData = (socket) => async (data) => {
               const Ping = protoMessages.common.Ping;
               const pingMessage = Ping.decode(packet);
               const user = getUserBySocket(socket);
-              if (!user) {
-                throw new CustomError(
-                  ErrorCodes.USER_NOT_FOUND,
-                  '유저를 찾을 수 없습니다.',
-                );
+              if (user) {
+                // throw new CustomError(
+                //   ErrorCodes.USER_NOT_FOUND,
+                //   '유저를 찾을 수 없습니다.',
+                // );
+                await user.handlePong(pingMessage);
               }
-              user.handlePong(pingMessage);
             }
             break;
           case PACKET_TYPE.NORMAL:
@@ -89,6 +95,7 @@ export const onData = (socket) => async (data) => {
             break;
         }
       } catch (error) {
+        console.error('!!!!!!', error);
         handleError(socket, error);
       }
     } else {

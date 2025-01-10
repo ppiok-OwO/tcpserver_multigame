@@ -21,6 +21,15 @@ export const removeGameSession = (id) => {
   }
 };
 
+export const removeUserInSession = (userId, gameId) => {
+  const session = getGameSession(gameId);
+  session.removeUser(userId);
+
+  if (session.users.length === 0) {
+    removeGameSession(gameId);
+  }
+};
+
 export const getGameSession = (id) => {
   return gameSessions.find((session) => session.id === id);
 };
