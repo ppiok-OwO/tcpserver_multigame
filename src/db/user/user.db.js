@@ -22,3 +22,7 @@ export const updateUserLogin = async (id) => {
 export const updateLastLocation = async (x, y, id) => {
   await pools.USER_DB.query(SQL_QUERIES.UPDATE_LAST_LOCATION, [x, y, id]);
 };
+
+export const updateLastGameId = async (gameId, id) => {
+  await pools.USER_DB.query(SQL_QUERIES.UPDATE_LAST_GAME_ID, [gameId, id]);
+};

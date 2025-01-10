@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS user
     last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_location_x FLOAT DEFAULT 0,
     last_location_y FLOAT DEFAULT 0,
+    last_gameId VARCHAR(36),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
