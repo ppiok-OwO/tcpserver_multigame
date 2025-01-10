@@ -5,4 +5,5 @@ export const SQL_QUERIES = {
     'UPDATE user SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
   UPDATE_LAST_LOCATION:
     'UPDATE user SET last_location_x = ?, last_location_y = ? WHERE id = ?;',
+  UPDATE_LAST_GAME_ID: 'UPDATE user SET last_gameId = ? WHERE id = ?;',
 };

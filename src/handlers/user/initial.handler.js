@@ -11,9 +11,11 @@ import {
   addGameSession,
   getAllGameSessions,
   getEnableGameSession,
+  getGameSession,
 } from '../../session/game.session.js';
 import CustomError from '../../utils/error/custom.error.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
+import { config } from '../../config/config.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
@@ -27,6 +29,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
     let user = await findUserByDeviceID(deviceId);
     let x = null;
     let y = null;
+    let gameId = null;
 
     // console.log('DB에서 검색된 유저:', user);
 
@@ -36,7 +39,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
       x = user.lastLocationX;
       y = user.lastLocationY;
-      // 마지막 게임 세션 ID도 받아오기
+      gameId = user.lastGameId; // 마지막 게임 세션 ID도 받아오기
     }
 
     // 유저 세션에 유저 추가, 유저 객체 반환
@@ -49,18 +52,27 @@ const initialHandler = async ({ socket, userId, payload }) => {
       );
     }
 
-    // 게임 세션이 없으면 객체를 만들고 유저에게 게임 객체의 id(uuid)를 부여
     // 유저의 마지막 게임 세션ID가 여전히 존재하는지 확인
+    let gameSession;
+    gameSession = getGameSession(gameId);
 
-    // 처음 온 유저라면 기존 게임 세션 중에 빈 곳이 있는지 확인
-    let gameSession = getEnableGameSession();
+    // 여전히 있고 정원이 꽉차지 않았다면 그대로 접속
+    if (
+      gameSession &&
+      gameSession.users.length < config.gameSession.MAX_PLAYERS
+    ) {
+      user.setGameId(gameId);
+    } else {
+      // 처음 온 유저라면 기존 게임 세션 중에 빈 곳이 있는지 확인
+      gameSession = getEnableGameSession();
 
-    if (!gameSession) {
       // 게임 세션이 없으면 새로 생성
-      gameSession = addGameSession();
+      if (!gameSession) {
+        gameSession = addGameSession();
+      }
+      // 게임 세션의 id를 유저의 속성으로 추가
+      user.setGameId(gameSession.id);
     }
-
-    user.setGameId(gameSession.id);
 
     // 게임 세션에 유저를 추가
     gameSession.addUser(user);
