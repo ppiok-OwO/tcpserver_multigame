@@ -1,6 +1,7 @@
 import { gameSessions } from './sessions.js';
 import Game from '../classes/models/game.class.js';
 import { getUserById } from './user.session.js';
+import { config } from '../config/config.js';
 
 export const addGameSession = () => {
   const session = new Game();
@@ -36,6 +37,12 @@ export const getGameSession = (id) => {
 
 export const getAllGameSessions = () => {
   return gameSessions;
+};
+
+export const getEnableGameSession = () => {
+  return gameSessions.find(
+    (session) => session.users.length < config.gameSession.MAX_PLAYERS,
+  );
 };
 
 export const getUserLocationInSession = (session) => {

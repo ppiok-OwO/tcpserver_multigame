@@ -20,10 +20,10 @@ message LocationUpdate {
 }
 
 message PositionVelocity {
-  float x = 1;
-  float y = 2;
-  float velocityX = 3;
-  float velocityY = 4;
+  float velocityX = 1;
+  float velocityY = 2;
+  // float velocityX = 3;
+  // float velocityY = 4;
 }
 
 message Disconnect {

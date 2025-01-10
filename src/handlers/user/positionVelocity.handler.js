@@ -6,16 +6,23 @@ import {
   HANDLER_IDS,
   RESPONSE_SUCCESS_CODE,
 } from '../../constants/handlerIds.js';
+import { getGameSession } from '../../session/game.session.js';
 
 export const positionVelocityHandler = ({ socket, userId, payload }) => {
   try {
-    const { x, y } = payload;
+    const { velocityX, velocityY } = payload; // 속도의 단위벡터를 받는다.(X축, Y축)
 
     // console.log('velocity : ', velocityX, velocityY);
 
     const user = getUserById(userId);
+    const gameSession = getGameSession(user.gameId);
 
-    const targetLocation = user.calculatePosition(user.latency, x, y);
+    const targetLocation = user.calculatePosition(
+      // user.latency,
+      gameSession.getMaxLatency(), // 세션 내 최고 레이턴시
+      velocityX,
+      velocityY,
+    );
 
     // console.log('다음 좌표는 여기! : ', targetLocation);
 
