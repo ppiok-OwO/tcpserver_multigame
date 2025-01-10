@@ -13,6 +13,7 @@ export const packetNames = {
     LocationUpdatePayload: 'game.LocationUpdatePayload',
     LocationUpdate: 'game.LocationUpdate',
     PositionVelocity: 'game.PositionVelocity',
+    Disconnect: 'game.Disconnect',
   },
   response: {
     Response: 'response.Response',

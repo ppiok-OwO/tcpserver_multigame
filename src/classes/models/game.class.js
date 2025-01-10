@@ -31,6 +31,7 @@ class Game {
       user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
       1000, // 1초마다 핑 측정
     );
+    // this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 1000);
   }
 
   getUser(userId) {

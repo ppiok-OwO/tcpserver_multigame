@@ -25,3 +25,6 @@ message PositionVelocity {
   float velocityX = 3;
   float velocityY = 4;
 }
+
+message Disconnect {
+}
