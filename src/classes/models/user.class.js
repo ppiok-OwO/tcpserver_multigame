@@ -1,4 +1,4 @@
-import { updateLastLocation } from '../../db/user/user.db.js';
+import { updateLastGameId, updateLastLocation } from '../../db/user/user.db.js';
 import {
   getGameSession,
   removeUserInSession,
@@ -30,9 +30,9 @@ class User {
     this.lastUpdateTime = Date.now();
   }
 
-  getNextSequence() {
-    return ++this.sequence;
-  }
+  // getNextSequence() {
+  //   return ++this.sequence;
+  // }
 
   ping() {
     const now = Date.now();
@@ -43,6 +43,7 @@ class User {
 
   handlePong(data) {
     const now = Date.now();
+    this.lastPong = now;
     this.latency = (now - data.timestamp) / 2; // 왕복이니까
     // console.log(
     //   `Received pong from user ${this.id} at ${now} with latency ${this.latency}ms`,
@@ -50,24 +51,27 @@ class User {
   }
 
   checkPong = async () => {
-    const now = Date.now();
-    if (now - this.lastPong > 10000) {
-      console.log('클라이언트 연결이 종료되었습니다.');
+    let now = Date.now();
+    console.log('연결 췤!: ', now - this.lastPong);
 
-      console.log(userSessions);
-      console.log(gameSessions);
+    // 10초 이상 퐁이 오지 않으면 연결 종료
+    if (now - this.lastPong > 10000) {
+      console.log('클라이언트가 연결을 종료했습니다.');
 
       // 플레이어의 마지막 위치 저장
       await updateLastLocation(this.x, this.y, this.id);
-
-      const gameSession = getGameSession(this.gameId);
+      // 플레이어의 마지막 게임 세션 ID 저장
+      await updateLastGameId(this.gameId, this.id);
 
       // 세션에서 유저 삭제
       removeUser(this.socket);
       // 게임 세션에서 유저 삭제, 세션의 유저 배열이 빈 배열이면 세션도 삭제
       removeUserInSession(this.id, this.gameId);
 
-      console.log('!!!!intervalManager: ', gameSession.intervalManager);
+      console.log('유저 세션', userSessions);
+      console.log('게임 세션', gameSessions);
+
+      this.socket.destroy(); // 정상적으로 소켓 종료
     }
   };
 

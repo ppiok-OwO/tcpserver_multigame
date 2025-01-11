@@ -6,4 +6,5 @@ export const PACKET_TYPE = {
   NORMAL: 1,
   BROADCAST: 2,
   LOCATION: 3,
+  ONCOLLISION: 4,
 };

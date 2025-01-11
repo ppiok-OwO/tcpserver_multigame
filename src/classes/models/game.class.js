@@ -2,7 +2,6 @@ import updateLocationHandler from '../../handlers/game/updateLocation.handler.js
 import { positionVelocityHandler } from '../../handlers/user/positionVelocity.handler.js';
 import {
   createLocationPacket,
-  gameStartNotification,
 } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +11,7 @@ class Game {
   constructor() {
     this.users = [];
     this.intervalManager = new IntervalManager();
-    this.state = 'waiting'; // 'waiting', 'inProgress'
+    // this.state = 'waiting'; // 'waiting', 'inProgress'
     this.id = uuidv4();
   }
 
@@ -30,7 +29,7 @@ class Game {
       user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
       1000, // 1초마다 핑 측정
     );
-    // this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 1000);
+    this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 3000); // 연결 상태 체크
   }
 
   getUser(userId) {
@@ -55,16 +54,16 @@ class Game {
     return maxLatency;
   }
 
-  startGame() {
-    this.state = 'inProgress';
+  // startGame() {
+  //   this.state = 'inProgress';
 
-    const startPacket = gameStartNotification(this.id, Date.now());
-    console.log(this.getMaxLatency());
+  //   const startPacket = gameStartNotification(this.id, Date.now());
+  //   console.log(this.getMaxLatency());
 
-    this.users.forEach((user) => {
-      user.socket.write(startPacket);
-    });
-  }
+  //   this.users.forEach((user) => {
+  //     user.socket.write(startPacket);
+  //   });
+  // }
 
   // getAllLocation() {
   //   const maxLatency = this.getMaxLatency();

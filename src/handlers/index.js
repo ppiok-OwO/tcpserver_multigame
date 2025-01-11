@@ -5,6 +5,7 @@ import CustomError from '../utils/error/custom.error.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
 import { positionVelocityHandler } from './user/positionVelocity.handler.js';
 import { disconnectHandler } from './game/disconnect.handler.js';
+import { onCollisionHandler } from './game/onCollision.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -22,6 +23,10 @@ const handlers = {
   [HANDLER_IDS.DISCONNECT]: {
     handler: disconnectHandler,
     protoType: 'game.Disconnect',
+  },
+  [HANDLER_IDS.ONCOLLISION]: {
+    handler: onCollisionHandler,
+    protoType: 'game.OnCollision', // 파싱할 때 쓰는 스키마
   },
 };
 

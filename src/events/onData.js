@@ -10,14 +10,10 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import initialHandler from '../handlers/user/initial.handler.js';
 import updateLocationHandler from '../handlers/game/updateLocation.handler.js';
 import { getGameSession } from '../session/game.session.js';
+import { onCollisionHandler } from '../handlers/game/onCollision.handler.js';
 
 // 데이터는 스트림을 통해 청크단위로 조금씩 전송받게 되는데 우리가 원하는 데이터가 들어올때까지 계속 대기하다가 원하는 데이터가 도착하면 처리하는 형태입니다.
 export const onData = (socket) => async (data) => {
-  // if (data === 'disconnect') {
-  //   console.log('클라이언트가 연결을 종료했습니다.');
-  //   socket.end(); // 정상적으로 소켓 종료
-  // }
-
   // 기존 버퍼에 새로 수신된 데이터를 추가
   socket.buffer = Buffer.concat([socket.buffer, data]);
 
@@ -41,10 +37,6 @@ export const onData = (socket) => async (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, length);
       socket.buffer = socket.buffer.slice(length);
 
-      // console.log(`length: ${length}`);
-      // console.log(`packetType: ${packetType}`);
-      // console.log(packet);
-
       try {
         switch (packetType) {
           case PACKET_TYPE.PING:
@@ -54,10 +46,6 @@ export const onData = (socket) => async (data) => {
               const pingMessage = Ping.decode(packet);
               const user = getUserBySocket(socket);
               if (user) {
-                // throw new CustomError(
-                //   ErrorCodes.USER_NOT_FOUND,
-                //   '유저를 찾을 수 없습니다.',
-                // );
                 await user.handlePong(pingMessage);
               }
             }
@@ -65,19 +53,8 @@ export const onData = (socket) => async (data) => {
           case PACKET_TYPE.NORMAL:
             {
               const { handlerId, payload, userId } = packetParser(packet);
-
-              const user = getUserById(userId);
-
               // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
               const handler = getHandlerById(handlerId);
-
-              // if (handler === initialHandler) {
-              //   console.log('이니셜 패킷 도착!');
-              // }
-
-              // if (handler === updateLocationHandler) {
-              //   console.log('위치동기화 패킷 도착!');
-              // }
 
               // 함수 호출
               await handler({
@@ -89,10 +66,22 @@ export const onData = (socket) => async (data) => {
             break;
           case PACKET_TYPE.LOCATION:
             {
-              // const { payload, userId } = packetParser(packet);
-              // updateLocationHandler({ socket, userId, payload });
+              // 위치 동기화(브로드 캐스트)
+              const { payload, userId } = packetParser(packet);
+              updateLocationHandler({ socket, userId, payload });
             }
             break;
+          // case PACKET_TYPE.ONCOLLISION: {
+          //   const { payload, userId } = packetParser(packet);
+          //   // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
+
+          //   // 함수 호출
+          //   await onCollisionHandler({
+          //     socket,
+          //     userId,
+          //     payload,
+          //   });
+          // }
         }
       } catch (error) {
         console.error('!!!!!!', error);

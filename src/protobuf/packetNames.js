@@ -14,9 +14,11 @@ export const packetNames = {
     LocationUpdate: 'game.LocationUpdate',
     PositionVelocity: 'game.PositionVelocity',
     Disconnect: 'game.Disconnect',
+    OnCollision: 'game.OnCollision',
   },
   response: {
     Response: 'response.Response',
+    OnCollisionResponse: 'response.OnCollisionResponse',
   },
 };
 
