@@ -18,24 +18,12 @@ const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
-export const gameStartNotification = (gameId, timestamp) => {
-  const protoMessages = getProtoMessages();
-  const Start = protoMessages.gameNotification.Start;
-
-  const payload = { gameId, timestamp };
-  const message = Start.create(payload);
-  const startPacket = Start.encode(message).finish();
-  return makeNotification(startPacket, PACKET_TYPE.GAME_START);
-};
-
 export const createLocationPacket = (users) => {
   const protoMessages = getProtoMessages();
   const Location = protoMessages.game.LocationUpdate;
 
   const payload = { users };
   const message = Location.create(payload);
-
-  // console.log('message', message);
 
   const locationPacket = Location.encode(message).finish();
   return makeNotification(locationPacket, PACKET_TYPE.BROADCAST);
@@ -68,3 +56,24 @@ export const createPingPacket = (timestamp) => {
   const pingPacket = ping.encode(message).finish();
   return makeNotification(pingPacket, 0);
 };
+
+export const onCollisionPacket = (data) => {
+  const protoMessages = getProtoMessages();
+  // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
+  const collision = protoMessages.game.OnCollision;
+
+  const payload = data;
+  const message = collision.create(payload);
+  const onCollisionPacket = collision.encode(message).finish();
+  return makeNotification(onCollisionPacket, PACKET_TYPE.ONCOLLISION);
+};
+
+// export const gameStartNotification = (gameId, timestamp) => {
+//   const protoMessages = getProtoMessages();
+//   const Start = protoMessages.gameNotification.Start;
+
+//   const payload = { gameId, timestamp };
+//   const message = Start.create(payload);
+//   const startPacket = Start.encode(message).finish();
+//   return makeNotification(startPacket, PACKET_TYPE.GAME_START);
+// };

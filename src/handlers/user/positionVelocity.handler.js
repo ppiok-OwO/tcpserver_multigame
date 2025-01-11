@@ -28,17 +28,6 @@ export const positionVelocityHandler = ({ socket, userId, payload }) => {
 
     // 클라이언트로 다시 보내주기
     const data = targetLocationPacket(targetLocation);
-
-    // const targetLocationResponse = createResponse(
-    //   HANDLER_IDS.POSITION_VELOCITY,
-    //   RESPONSE_SUCCESS_CODE,
-    //   targetLocation,
-    //   userId,
-    // );
-
-    // console.log('data', data);
-
-    // socket.write(targetLocationResponse);
     socket.write(data);
   } catch (err) {
     handleError(socket, err);

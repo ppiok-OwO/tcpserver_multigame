@@ -12,6 +12,12 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
     // 이 좌표는 나중에 검증용으로 쓸까?
 
     const user = await getUserById(userId);
+    if (!user) {
+      throw new CustomError(
+        ErrorCodes.USER_NOT_FOUND,
+        '유저를 찾을 수 없습니다.',
+      );
+    }
     const gameId = user.gameId;
 
     const gameSession = getGameSession(gameId);

@@ -44,21 +44,3 @@ export const getEnableGameSession = () => {
     (session) => session.users.length < config.gameSession.MAX_PLAYERS,
   );
 };
-
-export const getUserLocationInSession = (session) => {
-  let data = {};
-  data.users = [];
-
-  for (const element of session) {
-    const user = getUserById(element.id);
-
-    data.users.push({
-      id: user.id,
-      playerId: user.playerId,
-      x: user.x,
-      y: user.y,
-    });
-  }
-
-  return data;
-};

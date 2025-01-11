@@ -8,6 +8,13 @@ export const disconnectHandler = async ({ socket, userId }) => {
 
   const user = getUserById(userId);
 
+  if (!user) {
+    throw new CustomError(
+      ErrorCodes.USER_NOT_FOUND,
+      '유저를 찾을 수 없습니다.',
+    );
+  }
+
   // 플레이어의 마지막 위치 저장
   await updateLastLocation(user.x, user.y, user.id);
   // 플레이어의 마지막 게임 세션 ID 저장
