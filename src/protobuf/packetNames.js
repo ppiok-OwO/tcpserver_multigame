@@ -18,7 +18,6 @@ export const packetNames = {
   },
   response: {
     Response: 'response.Response',
-    OnCollisionResponse: 'response.OnCollisionResponse',
   },
 };
 
