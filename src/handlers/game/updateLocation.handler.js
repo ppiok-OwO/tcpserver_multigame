@@ -10,7 +10,6 @@ import { config } from '../../config/config.js';
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
     const { x, y } = payload;
-    // 이 좌표는 나중에 검증용으로 쓸까?
 
     const user = await getUserById(userId);
     if (!user) {
@@ -30,11 +29,10 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
       );
     }
 
-    // 클라이언트가 보낸 좌표가 서버가 가진 user의 좌표와 비교했을 때 오차 범위 내인지 판정
-    const offset = Math.sqrt(Math.pow(x - user.x, 2) + Math.pow(y - user.y, 2));
-    if (offset > config.ingame.offsetRange) {
+    // 클라이언트가 보낸 좌표를 서버가 가진 user의 좌표와 비교했을 때, 오차 범위 내인지 판정
+    const result = user.validatePosition(gameSession.getMaxLatency(), x, y);
+    if(!result) {
       console.log('올바르지 않은 좌표입니다.');
-      return;
     }
 
     const data = createLocationPacket(gameSession.users);
