@@ -1,3 +1,4 @@
+import { config } from '../../config/config.js';
 import { updateLastGameId, updateLastLocation } from '../../db/user/user.db.js';
 import {
   getGameSession,
@@ -77,14 +78,24 @@ class User {
 
   // 추측항법을 사용하여 위치를 추정하는 메서드
   calculatePosition(latency, velocityX, velocityY) {
-    const timeDiff = latency / 1000; // 레이턴시를 초 단위로 계산
-    const speed = 3;
-    const distanceX = speed * velocityX * timeDiff; // 속력(스칼라) * X축 속도(단위벡터) * timeDiff
-    const distanceY = speed * velocityY * timeDiff; // 속력(스칼라) * Y축 속도(단위벡터) * timeDiff
+    const timeDiff = latency / 1000; // 세션 내 최고 레이턴시를 초 단위로 계산
+    const distanceX = config.ingame.speed * velocityX * timeDiff; // 속력(스칼라) * X축 속도(단위벡터) * timeDiff
+    const distanceY = config.ingame.speed * velocityY * timeDiff; // 속력(스칼라) * Y축 속도(단위벡터) * timeDiff
 
     this.updatePosition(this.x + distanceX, this.y + distanceY);
 
     return { x: this.x, y: this.y };
+  }
+
+  // 클라이언트가 보낸 좌표를 서버가 가진 user의 좌표와 비교했을 때, 오차 범위 내인지 판정
+  validatePosition(latency, x, y) {
+    const timeDiff = latency / 1000; // 세션 내 최고 레이턴시를 초 단위로 계산
+    const offset = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
+    const offsetRange = config.ingame.speed * timeDiff;
+
+    if (offset > offsetRange) return false;
+
+    return true;
   }
 }
 
