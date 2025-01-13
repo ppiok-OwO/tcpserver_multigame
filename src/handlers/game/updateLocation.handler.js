@@ -5,10 +5,11 @@ import { addGameSession, getGameSession } from '../../session/game.session.js';
 import { getUserById } from '../../session/user.session.js';
 import { userSessions } from '../../session/sessions.js';
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
+import { config } from '../../config/config.js';
 
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
-    // const { x, y } = payload;
+    const { x, y } = payload;
     // 이 좌표는 나중에 검증용으로 쓸까?
 
     const user = await getUserById(userId);
@@ -29,15 +30,12 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
       );
     }
 
-    if (!user) {
-      throw new CustomError(
-        ErrorCodes.USER_NOT_FOUND,
-        '유저를 찾을 수 없습니다.',
-      );
+    // 클라이언트가 보낸 좌표가 서버가 가진 user의 좌표와 비교했을 때 오차 범위 내인지 판정
+    const offset = Math.sqrt(Math.pow(x - user.x, 2) + Math.pow(y - user.y, 2));
+    if (offset > config.ingame.offsetRange) {
+      console.log('올바르지 않은 좌표입니다.');
+      return;
     }
-
-    // user.updatePosition(x, y);
-    // const packet = gameSession.getAllLocation();
 
     const data = createLocationPacket(gameSession.users);
 
