@@ -46,4 +46,5 @@ export const config = {
   gameSession: {
     MAX_PLAYERS: 2,
   },
+  ingame: { offsetRange: 2 }, // 너무 작게 잡으면 플레이가 불가능하니까 재량껏 넉넉하게 하기
 };

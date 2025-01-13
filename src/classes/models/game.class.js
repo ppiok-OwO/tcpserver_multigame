@@ -1,8 +1,6 @@
 import updateLocationHandler from '../../handlers/game/updateLocation.handler.js';
 import { positionVelocityHandler } from '../../handlers/user/positionVelocity.handler.js';
-import {
-  createLocationPacket,
-} from '../../utils/notification/game.notification.js';
+import { createLocationPacket } from '../../utils/notification/game.notification.js';
 import IntervalManager from '../managers/interval.manager.js';
 import { v4 as uuidv4 } from 'uuid';
 import { config } from '../../config/config.js';
@@ -14,6 +12,8 @@ class Game {
     // this.state = 'waiting'; // 'waiting', 'inProgress'
     this.id = uuidv4();
   }
+
+  // 업데이트 함수(능동적인 서버)
 
   getGameId() {
     return this.id;
