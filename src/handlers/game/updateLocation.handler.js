@@ -5,11 +5,12 @@ import { addGameSession, getGameSession } from '../../session/game.session.js';
 import { getUserById } from '../../session/user.session.js';
 import { userSessions } from '../../session/sessions.js';
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
-import { config } from '../../config/config.js';
 
 const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
     const { x, y } = payload;
+
+    console.log('클라이언트 좌표 : ', x, y);
 
     const user = await getUserById(userId);
     if (!user) {
@@ -30,9 +31,15 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
     }
 
     // 클라이언트가 보낸 좌표를 서버가 가진 user의 좌표와 비교했을 때, 오차 범위 내인지 판정
+    // 서버 기준에선 클라이언트가 과거에 있는 거기 때문에 레이턴시 기반으로 범위 내에 있는지만 봐야 할 듯
     const result = user.validatePosition(gameSession.getMaxLatency(), x, y);
-    if(!result) {
-      console.log('올바르지 않은 좌표입니다.');
+    if (!result) {
+      // throw new CustomError(
+      //   ErrorCodes.INVALID_POSITION,
+      //   '올바르지 않은 좌표입니다.',
+      // );
+      console.log('클라이언트 좌표 : ', x, y);
+      console.log('서버 좌표 : ', user.x, user.y);
     }
 
     const data = createLocationPacket(gameSession.users);

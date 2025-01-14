@@ -8,6 +8,7 @@ export const packetNames = {
   },
   initial: {
     InitialPayload: 'initial.InitialPayload',
+    InitialResponse: 'initial.InitialResponse',
   },
   game: {
     LocationUpdatePayload: 'game.LocationUpdatePayload',
