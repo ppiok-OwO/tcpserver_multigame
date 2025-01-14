@@ -1,0 +1,48 @@
+{
+  "name": "gate",
+  "version": "1.0.0",
+  "data": [
+    {
+      "id": 1001,
+      "monsterLv": 0,
+      "waveCount": 2,
+      "monstersPerWave": 5,
+      "rewardPool": []
+    },
+    {
+      "id": 1002,
+      "monsterLv": 5,
+      "waveCount": 3,
+      "monstersPerWave": 6,
+      "rewardPool": []
+    },
+    {
+      "id": 1003,
+      "monsterLv": 10,
+      "waveCount": 3,
+      "monstersPerWave": 6,
+      "rewardPool": []
+    },
+    {
+      "id": 1004,
+      "monsterLv": 15,
+      "waveCount": 4,
+      "monstersPerWave": 7,
+      "rewardPool": []
+    },
+    {
+      "id": 1005,
+      "monsterLv": 20,
+      "waveCount": 4,
+      "monstersPerWave": 7,
+      "rewardPool": []
+    },
+    {
+      "id": 1006,
+      "monsterLv": 25,
+      "waveCount": 5,
+      "monstersPerWave": 8,
+      "rewardPool": []
+    }
+  ]
+}

@@ -29,8 +29,18 @@ export const createLocationPacket = (users) => {
   return makeNotification(locationPacket, PACKET_TYPE.BROADCAST);
 };
 
+export const initialPacket = (location) => {
+  const protoMessages = getProtoMessages();
+  const initialLocation = protoMessages.initial.InitialResponse;
+
+  const payload = location;
+  const message = initialLocation.create(payload);
+
+  const InitialResponsePacket = initialLocation.encode(message).finish();
+  return makeNotification(InitialResponsePacket, PACKET_TYPE.INIT);
+};
+
 export const targetLocationPacket = (location) => {
-  // JSON으로 써야 한다.(클라 쪽)
   const protoMessages = getProtoMessages();
   const Location = protoMessages.game.LocationUpdatePayload;
 

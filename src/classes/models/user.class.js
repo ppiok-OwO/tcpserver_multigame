@@ -91,7 +91,7 @@ class User {
   validatePosition(latency, x, y) {
     const timeDiff = latency / 1000; // 세션 내 최고 레이턴시를 초 단위로 계산
     const offset = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
-    const offsetRange = config.ingame.speed * timeDiff;
+    const offsetRange = config.ingame.speed * timeDiff + 1; // 서버 컴퓨터의 스펙이 좋지는 않을 거라 1픽셀 정도 여유를 줌
 
     if (offset > offsetRange) return false;
 

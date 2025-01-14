@@ -16,6 +16,7 @@ import {
 import CustomError from '../../utils/error/custom.error.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 import { config } from '../../config/config.js';
+import { initialPacket } from '../../utils/notification/game.notification.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
@@ -31,8 +32,6 @@ const initialHandler = async ({ socket, userId, payload }) => {
     let y = null;
     let gameId = null;
 
-    // console.log('DB에서 검색된 유저:', user);
-
     if (!user) {
       user = await createUser(deviceId, playerId, latency);
     } else {
@@ -44,7 +43,6 @@ const initialHandler = async ({ socket, userId, payload }) => {
 
     // 유저 세션에 유저 추가, 유저 객체 반환
     user = addUser(socket, user.id, playerId, x, y);
-
     if (!user) {
       throw new CustomError(
         ErrorCodes.USER_NOT_FOUND,
@@ -78,16 +76,10 @@ const initialHandler = async ({ socket, userId, payload }) => {
     gameSession.addUser(user);
 
     console.log('접속 중인 유저들', gameSession.users);
+    console.log('초기 좌표 : ', user.x, user.y);
 
-    const initailResponse = createResponse(
-      HANDLER_IDS.INITIAL,
-      RESPONSE_SUCCESS_CODE,
-      { userId, x: user.x, y: user.y },
-      deviceId,
-    );
-
-    // 소켓을 통해 클라이언트에게 응답 메시지 전송
-    socket.write(initailResponse);
+    const data = initialPacket({ x: user.x, y: user.y });
+    socket.write(data);
   } catch (err) {
     handleError(socket, err);
   }
