@@ -1,5 +1,6 @@
 import { getGameAssets } from '../../init/assets.js';
 import { v4 as uuidv4 } from 'uuid';
+import { getGameSession } from '../../session/game.session.js';
 
 class Monster {
   constructor(
@@ -19,15 +20,7 @@ class Monster {
     this.gateId = gateId;
   }
 
-  // addMonster(gateId) {
-  //   // gateId가 있으면 gate.json에서 gate의 좌표를 알아낼 수 있음
-  //   const { gates } = getGameAssets();
-  //   const gate = gates.data.find((value) => {
-  //     value.id === gateId;
-  //   });
-  //   const gatePosition = gate.position;
-  //   this.level = gate.monsterLv;
-  // }
+  
 }
 
 export default Monster;

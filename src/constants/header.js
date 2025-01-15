@@ -9,4 +9,5 @@ export const PACKET_TYPE = {
   ONCOLLISION: 4,
   INIT: 5,
   CREATEMONSTER: 6,
+  MONSTERMOVE: 7,
 };

@@ -14,7 +14,6 @@ class User {
     this.socket = socket;
     this.x = x ?? 0;
     this.y = y ?? 0;
-    // this.sequence = 0;
     this.latency = 0;
     this.lastUpdateTime = Date.now();
     this.playerId = playerId;
@@ -31,14 +30,8 @@ class User {
     this.lastUpdateTime = Date.now();
   }
 
-  // getNextSequence() {
-  //   return ++this.sequence;
-  // }
-
   ping() {
     const now = Date.now();
-
-    // console.log(`${this.id}: ping`);
     this.socket.write(createPingPacket(now));
   }
 
@@ -46,9 +39,6 @@ class User {
     const now = Date.now();
     this.lastPong = now;
     this.latency = (now - data.timestamp) / 2; // 왕복이니까
-    // console.log(
-    //   `Received pong from user ${this.id} at ${now} with latency ${this.latency}ms`,
-    // );
   }
 
   checkPong = async () => {
@@ -91,7 +81,7 @@ class User {
   validatePosition(latency, x, y) {
     const timeDiff = latency / 1000; // 세션 내 최고 레이턴시를 초 단위로 계산
     const offset = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
-    const offsetRange = config.ingame.speed * timeDiff + 1; // 서버 컴퓨터의 스펙이 좋지는 않을 거라 1픽셀 정도 여유를 줌
+    const offsetRange = config.ingame.speed * timeDiff + 3; // 충돌 시 밀려나기 때문에 3픽셀 정도 여유를 줌
 
     if (offset > offsetRange) return false;
 

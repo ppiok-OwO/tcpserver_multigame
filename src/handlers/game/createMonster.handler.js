@@ -12,8 +12,6 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
   try {
     const { monsters } = payload;
 
-    // console.log('monsterHp', monsterHp, 'monsterDmg', monsterDmg);
-
     const user = await getUserById(userId);
     if (!user) {
       throw new CustomError(
@@ -52,8 +50,9 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
       console.log('게이트를 활성화할 수 없는 위치입니다.');
     }
 
+    let createdMonsters = [];
     for (let monster of monsters) {
-      let monsterObj = new Monster(
+      const monsterObj = new Monster(
         monster.monsterPosX,
         monster.monsterPosY,
         monster.monsterIndex,
@@ -63,19 +62,15 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
       );
 
       gameSession.addMonster(monsterObj);
+      createdMonsters.push({ ...monster, monsterId: monsterObj.id });
     }
-
-    console.log(gameSession.monsters);
 
     // 게임 세션의 몬스터 배열을 패킷에 담아서 클라로 보내기
     // const data = createMonsterPacket(gameSession.monsters);
-    const data = createMonsterPacket(monsters);
+    const data = createMonsterPacket(createdMonsters);
     // console.log('data: ', data);
 
     gameSession.broadcast(data);
-    //socket.write(data);
-
-    // 브로드 캐스트를 해주려면 updateLocation핸들러에서 몬스터 배열을 같이 보내줘야 할까?(서버는 세션 내 유저들의 소켓을 알지 않나)
   } catch (err) {
     handleError(socket, err);
   }

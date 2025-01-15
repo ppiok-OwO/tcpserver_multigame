@@ -11,8 +11,6 @@ export const onCollisionHandler = ({ socket, userId, payload }) => {
   // 충돌이 일어난 x, y 좌표를 payload에서 추출
   const { x0, y0, x1, y1 } = payload;
 
-  // 서버에서 추측항법으로 계산해두었던 유저 좌표를 기반으로 충돌을 검증
-  // 유니티 콜라이더가 세로 1px 가로가 0.7px인 타원형이므로, 지름 1.2 정도의 원으로 검증한다.
   const user = getUserById(userId);
   if (!user) {
     throw new CustomError(
@@ -57,5 +55,4 @@ export const onCollisionHandler = ({ socket, userId, payload }) => {
   });
 
   socket.write(data);
-  // }
 };
