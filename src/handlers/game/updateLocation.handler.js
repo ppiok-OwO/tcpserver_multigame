@@ -40,7 +40,7 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
       console.log('서버 좌표 : ', user.x, user.y);
     }
 
-    const data = createLocationPacket(gameSession.users);
+    const data = createLocationPacket(gameSession.users, gameSession.monsters);
 
     // console.log('data: ', data);
     // console.log('gameSession.users: ', gameSession.users);

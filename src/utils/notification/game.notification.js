@@ -18,11 +18,11 @@ const makeNotification = (message, type) => {
   return Buffer.concat([packetLength, packetType, message]);
 };
 
-export const createLocationPacket = (users) => {
+export const createLocationPacket = (users, monsters) => {
   const protoMessages = getProtoMessages();
   const Location = protoMessages.game.LocationUpdate;
 
-  const payload = { users };
+  const payload = { users, monsters };
   const message = Location.create(payload);
 
   const locationPacket = Location.encode(message).finish();
