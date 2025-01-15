@@ -33,3 +33,26 @@ message OnCollision {
   float x1 = 3;
   float y1 = 4;
 }
+
+message CreateMonster {
+  float monsterPosX = 1;
+  float monsterPosY = 2;
+  int32 monsterIndex = 3;
+  int32 gateId = 4;
+  int32 monsterHp = 5;
+  int32 monsterDmg = 6;
+}
+
+message UpdateMonster {
+  repeated MonsterLocation monsters = 1;
+
+  message MonsterLocation {
+      string id = 1;
+      int32 index = 2;
+      float x = 3;
+      float y = 4;
+      int32 hp = 5;
+      int32 dmg = 6;
+      int32 gateId =7;
+  }
+}

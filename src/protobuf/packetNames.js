@@ -16,6 +16,8 @@ export const packetNames = {
     PositionVelocity: 'game.PositionVelocity',
     Disconnect: 'game.Disconnect',
     OnCollision: 'game.OnCollision',
+    CreateMonster: 'game.CreateMonster',
+    UpdateMonster: 'game.UpdateMonster',
   },
   response: {
     Response: 'response.Response',

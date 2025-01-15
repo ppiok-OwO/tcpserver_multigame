@@ -8,6 +8,7 @@ import { config } from '../../config/config.js';
 class Game {
   constructor() {
     this.users = [];
+    this.monsters = [];
     this.intervalManager = new IntervalManager();
     // this.state = 'waiting'; // 'waiting', 'inProgress'
     this.id = uuidv4();
@@ -30,6 +31,10 @@ class Game {
       1000, // 1초마다 핑 측정
     );
     this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 3000); // 연결 상태 체크
+  }
+
+  addMonster(monster) {
+    this.monsters.push(monster);
   }
 
   getUser(userId) {

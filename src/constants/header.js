@@ -8,4 +8,5 @@ export const PACKET_TYPE = {
   LOCATION: 3,
   ONCOLLISION: 4,
   INIT: 5,
+  CREATEMONSTER: 6,
 };

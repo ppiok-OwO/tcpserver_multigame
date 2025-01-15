@@ -78,6 +78,17 @@ export const onCollisionPacket = (data) => {
   return makeNotification(onCollisionPacket, PACKET_TYPE.ONCOLLISION);
 };
 
+export const createMonsterPacket = (data) => {
+  const protoMessages = getProtoMessages();
+  // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
+  const monsters = protoMessages.game.UpdateMonster;
+
+  const payload = { monsters: data };
+  const message = monsters.create(payload);
+  const updateMonsterPacket = monsters.encode(message).finish();
+  return makeNotification(updateMonsterPacket, PACKET_TYPE.CREATEMONSTER);
+};
+
 // export const gameStartNotification = (gameId, timestamp) => {
 //   const protoMessages = getProtoMessages();
 //   const Start = protoMessages.gameNotification.Start;
