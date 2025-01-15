@@ -18,6 +18,7 @@ export const packetNames = {
     OnCollision: 'game.OnCollision',
     CreateMonster: 'game.CreateMonster',
     UpdateMonster: 'game.UpdateMonster',
+    MonsterBroadcast: 'game.MonsterBroadcast',
   },
   response: {
     Response: 'response.Response',

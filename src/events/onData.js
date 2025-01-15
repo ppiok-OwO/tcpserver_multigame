@@ -71,17 +71,6 @@ export const onData = (socket) => async (data) => {
               updateLocationHandler({ socket, userId, payload });
             }
             break;
-          // case PACKET_TYPE.ONCOLLISION: {
-          //   const { payload, userId } = packetParser(packet);
-          //   // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
-
-          //   // 함수 호출
-          //   await onCollisionHandler({
-          //     socket,
-          //     userId,
-          //     payload,
-          //   });
-          // }
         }
       } catch (error) {
         console.error('!!!!!!', error);

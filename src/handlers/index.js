@@ -7,6 +7,7 @@ import { positionVelocityHandler } from './user/positionVelocity.handler.js';
 import { disconnectHandler } from './game/disconnect.handler.js';
 import { onCollisionHandler } from './game/onCollision.handler.js';
 import { createMonsterHandler } from './game/createMonster.handler.js';
+import { monsterBroadcastHandler } from './game/monsterBroadcast.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -32,6 +33,10 @@ const handlers = {
   [HANDLER_IDS.CREATEMONSTER]: {
     handler: createMonsterHandler,
     protoType: 'game.CreateMonster', // 파싱할 때 쓰는 스키마
+  },
+  [HANDLER_IDS.MONSTERBROADCAST]: {
+    handler: monsterBroadcastHandler,
+    protoType: 'game.MonsterBroadcast',
   },
 };
 

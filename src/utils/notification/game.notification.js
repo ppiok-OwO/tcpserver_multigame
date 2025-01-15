@@ -89,6 +89,10 @@ export const createMonsterPacket = (data) => {
   return makeNotification(updateMonsterPacket, PACKET_TYPE.CREATEMONSTER);
 };
 
+// export const createMonsterBroadcastPacket = (data) => {
+
+// };
+
 // export const gameStartNotification = (gameId, timestamp) => {
 //   const protoMessages = getProtoMessages();
 //   const Start = protoMessages.gameNotification.Start;

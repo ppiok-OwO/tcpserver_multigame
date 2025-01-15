@@ -10,23 +10,12 @@ message LocationUpdatePayload {
 
 message LocationUpdate {
   repeated UserLocation users = 1;
-  repeated MonsterLocation monsters = 2;
 
   message UserLocation {
       string id = 1;
       uint32 playerId = 2;
       float x = 3;
       float y = 4;
-  }
-
-  message MonsterLocation {
-    string id = 1;
-    int32 index = 2;
-    float x = 3;
-    float y = 4;
-    int32 hp = 5;
-    int32 dmg = 6;
-    int32 gateId =7;
   }
 }
 
@@ -67,3 +56,5 @@ message UpdateMonster {
       int32 gateId =7;
   }
 }
+
+message MonsterBroadcast {}
