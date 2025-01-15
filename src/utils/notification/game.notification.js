@@ -89,6 +89,17 @@ export const createMonsterPacket = (data) => {
   return makeNotification(updateMonsterPacket, PACKET_TYPE.CREATEMONSTER);
 };
 
+export const monsterMovePacket = (data) => {
+  const protoMessages = getProtoMessages();
+  // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
+  const locations = protoMessages.game.MonsterMove;
+
+  const payload = { monsterLocations: data };
+  const message = locations.create(payload);
+  const updateMonsterPacket = locations.encode(message).finish();
+  return makeNotification(updateMonsterPacket, PACKET_TYPE.MONSTERMOVE);
+};
+
 // export const gameStartNotification = (gameId, timestamp) => {
 //   const protoMessages = getProtoMessages();
 //   const Start = protoMessages.gameNotification.Start;

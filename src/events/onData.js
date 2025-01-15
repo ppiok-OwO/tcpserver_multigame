@@ -64,13 +64,13 @@ export const onData = (socket) => async (data) => {
               });
             }
             break;
-          case PACKET_TYPE.LOCATION:
-            {
-              // 위치 동기화(브로드 캐스트)
-              const { payload, userId } = packetParser(packet);
-              updateLocationHandler({ socket, userId, payload });
-            }
-            break;
+          // case PACKET_TYPE.LOCATION:
+          //   {
+          //     // 위치 동기화(브로드 캐스트)
+          //     const { payload, userId } = packetParser(packet);
+          //     updateLocationHandler({ socket, userId, payload });
+          //   }
+          //   break;
           // case PACKET_TYPE.ONCOLLISION: {
           //   const { payload, userId } = packetParser(packet);
           //   // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당

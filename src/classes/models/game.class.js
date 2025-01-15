@@ -4,6 +4,7 @@ import { createLocationPacket } from '../../utils/notification/game.notification
 import IntervalManager from '../managers/interval.manager.js';
 import { v4 as uuidv4 } from 'uuid';
 import { config } from '../../config/config.js';
+import { monsterMove } from '../../session/monster.session.js';
 
 class Game {
   constructor() {
@@ -29,6 +30,11 @@ class Game {
       user.id,
       user.ping.bind(user), // intervalManager라는 객체 속에서 user 객체의 메서드를 실행할 때 실행 컨텍스트를 명시해주기 위함
       1000, // 1초마다 핑 측정
+    );
+    this.intervalManager.updateMonsterPosition(
+      user.id,
+      () => monsterMove(this.id, user.socket),
+      500,
     );
     this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 3000); // 연결 상태 체크
   }
@@ -64,27 +70,6 @@ class Game {
       user.socket.write(packet);
     });
   }
-
-  // startGame() {
-  //   this.state = 'inProgress';
-
-  //   const startPacket = gameStartNotification(this.id, Date.now());
-  //   console.log(this.getMaxLatency());
-
-  //   this.users.forEach((user) => {
-  //     user.socket.write(startPacket);
-  //   });
-  // }
-
-  // getAllLocation() {
-  //   const maxLatency = this.getMaxLatency();
-
-  //   const locationData = this.users.map((user) => {
-  //     const { x, y } = user.calculatePosition(maxLatency);
-  //     return { id: user.id, x, y };
-  //   });
-  //   return createLocationPacket(locationData);
-  // }
 }
 
 export default Game;
