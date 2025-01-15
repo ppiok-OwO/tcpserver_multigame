@@ -10,8 +10,6 @@ const updateLocationHandler = async ({ socket, userId, payload }) => {
   try {
     const { x, y } = payload;
 
-    console.log('클라이언트 좌표 : ', x, y);
-
     const user = await getUserById(userId);
     if (!user) {
       throw new CustomError(

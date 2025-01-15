@@ -6,6 +6,7 @@ import { ErrorCodes } from '../utils/error/errorCodes.js';
 import { positionVelocityHandler } from './user/positionVelocity.handler.js';
 import { disconnectHandler } from './game/disconnect.handler.js';
 import { onCollisionHandler } from './game/onCollision.handler.js';
+import { createMonsterHandler } from './game/createMonster.handler.js';
 
 const handlers = {
   [HANDLER_IDS.INITIAL]: {
@@ -27,6 +28,10 @@ const handlers = {
   [HANDLER_IDS.ONCOLLISION]: {
     handler: onCollisionHandler,
     protoType: 'game.OnCollision', // 파싱할 때 쓰는 스키마
+  },
+  [HANDLER_IDS.CREATEMONSTER]: {
+    handler: createMonsterHandler,
+    protoType: 'game.CreateMonster', // 파싱할 때 쓰는 스키마
   },
 };
 
