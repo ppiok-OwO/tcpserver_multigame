@@ -31,7 +31,7 @@ const handlers = {
   },
   [HANDLER_IDS.CREATEMONSTER]: {
     handler: createMonsterHandler,
-    protoType: 'game.CreateMonster', // 파싱할 때 쓰는 스키마
+    protoType: 'game.CreateMonsterList', // 파싱할 때 쓰는 스키마
   },
 };
 

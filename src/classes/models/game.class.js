@@ -59,6 +59,12 @@ class Game {
     return maxLatency;
   }
 
+  broadcast(packet) {
+    this.users.forEach((user) => {
+      user.socket.write(packet);
+    });
+  }
+
   // startGame() {
   //   this.state = 'inProgress';
 

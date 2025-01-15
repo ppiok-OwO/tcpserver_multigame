@@ -81,7 +81,7 @@ export const onCollisionPacket = (data) => {
 export const createMonsterPacket = (data) => {
   const protoMessages = getProtoMessages();
   // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
-  const monsters = protoMessages.game.UpdateMonster;
+  const monsters = protoMessages.game.CreateMonsterList;
 
   const payload = { monsters: data };
   const message = monsters.create(payload);

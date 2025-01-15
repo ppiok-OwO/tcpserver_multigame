@@ -10,16 +10,9 @@ import { handleError } from '../../utils/error/errorHandler.js';
 
 export const createMonsterHandler = async ({ socket, userId, payload }) => {
   try {
-    const {
-      monsterPosX,
-      monsterPosY,
-      monsterIndex,
-      gateId,
-      monsterHp,
-      monsterDmg,
-    } = payload;
+    const { monsters } = payload;
 
-    console.log('monsterHp', monsterHp, 'monsterDmg', monsterDmg);
+    // console.log('monsterHp', monsterHp, 'monsterDmg', monsterDmg);
 
     const user = await getUserById(userId);
     if (!user) {
@@ -43,9 +36,8 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
     const { gates } = getGameAssets();
 
     const gate = gates.data.find((value) => {
-      return value.id === gateId;
+      return value.id === monsters[0].gateId;
     });
-    // console.log(gate);
 
     // 유저의 현재 좌표가 해당 게이트를 활성화 할 수 있는지 검증하기
     const offset = Math.sqrt(
@@ -53,29 +45,35 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
         Math.pow(gate.position.y - user.y, 2),
     );
     if (offset > config.ingame.interactionOffset) {
-      throw new CustomError(
-        ErrorCodes.INVALID_POSITION,
-        '게이트를 활성화할 수 없는 위치입니다.',
-      );
+      // throw new CustomError(
+      //   ErrorCodes.INVALID_POSITION,
+      //   '게이트를 활성화할 수 없는 위치입니다.',
+      // );
+      console.log('게이트를 활성화할 수 없는 위치입니다.');
     }
 
-    const monster = new Monster(
-      monsterPosX,
-      monsterPosY,
-      monsterIndex,
-      monsterHp,
-      monsterDmg,
-      gateId,
-    );
+    for (let monster of monsters) {
+      let monsterObj = new Monster(
+        monster.monsterPosX,
+        monster.monsterPosY,
+        monster.monsterIndex,
+        monster.monsterHp,
+        monster.monsterDmg,
+        monster.gateId,
+      );
 
-    gameSession.addMonster(monster);
-    // console.log(gameSession.monsters);
+      gameSession.addMonster(monsterObj);
+    }
+
+    console.log(gameSession.monsters);
 
     // 게임 세션의 몬스터 배열을 패킷에 담아서 클라로 보내기
-    const data = createMonsterPacket(gameSession.monsters);
-    console.log('data: ', data);
+    // const data = createMonsterPacket(gameSession.monsters);
+    const data = createMonsterPacket(monsters);
+    // console.log('data: ', data);
 
-    socket.write(data);
+    gameSession.broadcast(data);
+    //socket.write(data);
 
     // 브로드 캐스트를 해주려면 updateLocation핸들러에서 몬스터 배열을 같이 보내줘야 할까?(서버는 세션 내 유저들의 소켓을 알지 않나)
   } catch (err) {
