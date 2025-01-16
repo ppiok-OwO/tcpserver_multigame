@@ -53,12 +53,23 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
 
     let createdMonsters = [];
     for (let monster of monsters) {
+      // 몬스터 체력과 데미지 계산하기
+      const monsterHp = 100 + gate.monsterLv * 10;
+      const monsterDmg = 10 + gate.monsterLv;
+
+      if (
+        monsterHp !== monster.monsterHp ||
+        monsterDmg !== monster.monsterDmg
+      ) {
+        throw new CustomError(ErrorCodes.ABUSER, '악의적인 사용자입니다.');
+      }
+
       const monsterObj = new Monster(
         monster.monsterPosX,
         monster.monsterPosY,
         monster.monsterIndex,
-        monster.monsterHp,
-        monster.monsterDmg,
+        monsterHp,
+        monsterDmg,
         monster.gateId,
       );
 

@@ -44,7 +44,7 @@ export const config = {
     // 필요한 만큼 추가
   },
   gameSession: {
-    MAX_PLAYERS: 2,
+    MAX_PLAYERS: 4,
   },
   ingame: {
     offsetRange: 2, // 너무 작게 잡으면 플레이가 불가능하니까 재량껏 넉넉하게 하기
