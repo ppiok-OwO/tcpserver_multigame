@@ -33,23 +33,20 @@ export const attackMonsterHandler = async ({ socket, userId, payload }) => {
   // 세션에서 몬스터 찾기
   const monster = gameSession.getMonster(monsterId);
   if (!monster) {
-    // throw new CustomError(
-    //   ErrorCodes.MONSTER_NOT_FOUND,
-    //   '몬스터를 찾을 수 없습니다.',
-    // );
+    // 멀티 플레이 중이면 이미 죽인 몬스터에 대한 패킷을 처리해야 할 때도 있다.
     console.log('몬스터를 찾을 수 없습니다.', monsterId);
 
     return;
   }
 
   // 몬스터가 플레이어의 사정거리 내에 있는지 검증
-  // const distance = Math.sqrt(
-  //   Math.pow(user.x - monsterX, 2) + Math.pow(user.y - monsterY, 2),
-  // );
-  // if (distance > user.range) {
-  //   console.log('공격할 수 없는 대상입니다.');
-  //   return;
-  // }
+  const distance = Math.sqrt(
+    Math.pow(user.x - monsterX, 2) + Math.pow(user.y - monsterY, 2),
+  );
+  if (distance > user.range) {
+    console.log('공격할 수 없는 대상입니다.');
+    return;
+  }
 
   // 공격하기
   const damagedMonsterHp = Math.floor(monster.hp - user.dmg);
