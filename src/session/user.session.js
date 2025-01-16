@@ -1,7 +1,6 @@
 import { gameSessions, userSessions } from './sessions.js';
 import User from '../classes/models/user.class.js';
 
-// sequence는 호출 횟수
 export const addUser = (socket, uuid, playerId, x, y) => {
   const user = new User(uuid, socket, playerId, x, y);
   userSessions.push(user);
@@ -11,18 +10,8 @@ export const addUser = (socket, uuid, playerId, x, y) => {
 export const removeUser = (socket) => {
   const index = userSessions.findIndex((user) => user.socket === socket);
   if (index !== -1) {
-    // const sessionIndex = gameSessions.findIndex((game)=> game.users.incluses())
     return userSessions.splice(index, 1)[0];
   }
-};
-
-export const getNextSequence = (id) => {
-  const user = getUserById(id);
-  if (user) {
-    return user.getNextSequence();
-  }
-
-  return null;
 };
 
 export const getUserById = (id) => {

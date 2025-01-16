@@ -50,5 +50,9 @@ export const config = {
     offsetRange: 2, // 너무 작게 잡으면 플레이가 불가능하니까 재량껏 넉넉하게 하기
     speed: 3,
     interactionOffset: 4.5, // 너무 작게 잡으면 플레이가 불가능하니까 재량껏 넉넉하게 하기
+    playerBaseHp: 100,
+    playerBaseDmg: 50,
+    playerBaseRange: 30,
+    monsterBaseRange: 5,
   },
 };

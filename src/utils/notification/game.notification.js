@@ -85,8 +85,8 @@ export const createMonsterPacket = (data) => {
 
   const payload = { monsters: data };
   const message = monsters.create(payload);
-  const updateMonsterPacket = monsters.encode(message).finish();
-  return makeNotification(updateMonsterPacket, PACKET_TYPE.CREATEMONSTER);
+  const createMonsterPacket = monsters.encode(message).finish();
+  return makeNotification(createMonsterPacket, PACKET_TYPE.CREATEMONSTER);
 };
 
 export const monsterMovePacket = (data) => {
@@ -96,8 +96,30 @@ export const monsterMovePacket = (data) => {
 
   const payload = { monsterLocations: data };
   const message = locations.create(payload);
-  const updateMonsterPacket = locations.encode(message).finish();
-  return makeNotification(updateMonsterPacket, PACKET_TYPE.MONSTERMOVE);
+  const monsterMovePacket = locations.encode(message).finish();
+  return makeNotification(monsterMovePacket, PACKET_TYPE.MONSTERMOVE);
+};
+
+export const attackPacket = (data) => {
+  const protoMessages = getProtoMessages();
+  // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
+  const result = protoMessages.game.AttackResult;
+
+  const payload = data;
+  const message = result.create(payload);
+  const attackPacket = result.encode(message).finish();
+  return makeNotification(attackPacket, PACKET_TYPE.ATTACK);
+};
+
+export const damagedPacket = (data) => {
+  const protoMessages = getProtoMessages();
+  // 네임스페이스가 ping인 프로토버퍼(스키마) 불러오기
+  const result = protoMessages.game.AttackResult;
+
+  const payload = data;
+  const message = result.create(payload);
+  const damagedPacket = result.encode(message).finish();
+  return makeNotification(damagedPacket, PACKET_TYPE.DAMAGED);
 };
 
 // export const gameStartNotification = (gameId, timestamp) => {

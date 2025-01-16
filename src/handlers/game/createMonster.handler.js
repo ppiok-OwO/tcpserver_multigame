@@ -67,6 +67,8 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
       createdMonsters.push({ ...monster, monsterId: monsterObj.id });
     }
 
+    console.log('createdMonsters : ', gameSession.monsters);
+
     // ID가 발급된 몬스터 배열을 패킷에 담아서 클라로 보내기
     const data = createMonsterPacket(createdMonsters);
     // 브로드 캐스트

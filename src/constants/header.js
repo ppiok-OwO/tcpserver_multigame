@@ -10,4 +10,6 @@ export const PACKET_TYPE = {
   INIT: 5,
   CREATEMONSTER: 6,
   MONSTERMOVE: 7,
+  ATTACK: 8,
+  DAMAGED: 9,
 };

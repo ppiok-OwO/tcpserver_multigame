@@ -39,10 +39,6 @@ class Game {
     this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 3000); // 연결 상태 체크
   }
 
-  addMonster(monster) {
-    this.monsters.push(monster);
-  }
-
   getUser(userId) {
     return this.users.find((user) => user.id === userId);
   }
@@ -54,6 +50,18 @@ class Game {
     if (this.users.length < config.gameSession.MAX_PLAYERS) {
       this.state = 'waiting';
     }
+  }
+
+  addMonster(monster) {
+    this.monsters.push(monster);
+  }
+
+  getMonster(monsterId) {
+    return this.monsters.find((monster) => monster.id === monsterId);
+  }
+
+  removeMonster(monsterId) {
+    this.monsters = this.monsters.filter((monster) => monster.id !== monsterId);
   }
 
   getMaxLatency() {

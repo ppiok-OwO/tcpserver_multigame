@@ -14,6 +14,9 @@ class User {
     this.socket = socket;
     this.x = x ?? 0;
     this.y = y ?? 0;
+    this.hp = config.ingame.playerBaseHp;
+    this.dmg = config.ingame.playerBaseDmg;
+    this.range = config.ingame.playerBaseRange;
     this.latency = 0;
     this.lastUpdateTime = Date.now();
     this.playerId = playerId;
