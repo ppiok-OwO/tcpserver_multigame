@@ -24,7 +24,7 @@ export const removeGameSession = (id) => {
 
 export const removeUserInSession = (userId, gameId) => {
   const session = getGameSession(gameId);
-  session.removeUser(userId);
+  session.removeUser(userId); // 유저의 인터벌 삭제
 
   if (session.users.length === 0) {
     removeGameSession(gameId);

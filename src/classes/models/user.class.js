@@ -56,7 +56,7 @@ class User {
 
       // 세션에서 유저 삭제
       removeUser(this.socket);
-      // 게임 세션에서 유저 삭제, 세션의 유저 배열이 빈 배열이면 세션도 삭제
+      // 게임 세션에서 유저 삭제, 세션의 유저 배열이 빈 배열이면 세션과 인터벌도 삭제
       removeUserInSession(this.id, this.gameId);
 
       console.log('유저 세션', userSessions);
