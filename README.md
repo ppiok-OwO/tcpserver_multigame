@@ -1,34 +1,131 @@
 <img src="https://img.shields.io/badge/node.js-%23339933.svg?&style=for-the-badge&logo=node.js&logoColor=white" /> <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" />
+
 # 멀티 플레이 게임 서버 - TCP
+
 뱀서라이크와 핵슬을 짬뽕한 게임을 만들어봤습니다. 게임 자체로는 완성도가 다소 낮지만, 서버 - 클라이언트 패킷 통신을 통해 여러 기능을 구현해보고자 했습니다.
+
 ## 게임 구상
+
 ![image](https://github.com/user-attachments/assets/fdaa2881-f0b7-4c12-940c-dc26252cfaa9) </br>
 프로젝트 초반에 핵 앤 슬래시 게임을 목표로 하고 그려보았던 다이어그램입니다.
 
 ## ERD
+
 ![image](https://github.com/user-attachments/assets/fce05001-f3cb-4c48-9611-c25eecf1e436) </br>
 DB는 MySQL로 위와 같이 구현을 할 생각이었습니다만, 현재는 user 테이블만 사용하는 중입니다.
 
 ## 패킷 명세서
+
 패킷의 공통 구조는 아래와 같이 되어있습니다. 패킷의 직렬화는 프로토버프를 형식을 이용하였고, payload의 형식과 핸들러 맵핑은 아래 스프레드시트에서 확인하실 수 있습니다.</br>
 
-| 필드 명      | 타입     | 설명             |
-| --------- | ------ | -------------- |
-| handlerId | uint32 | 핸들러 ID (4바이트)  |
-| userId    | string | 유저 ID (UUID)   |
+| 필드 명   | 타입   | 설명                     |
+| --------- | ------ | ------------------------ |
+| handlerId | uint32 | 핸들러 ID (4바이트)      |
+| userId    | string | 유저 ID (UUID)           |
 | version   | string | 클라이언트 버전 (문자열) |
-| payload   | bytes  | 실제 데이터         |
+| payload   | bytes  | 실제 데이터              |
 
 </br>
 https://docs.google.com/spreadsheets/d/1LyrtTOSzJLXQVYb8oYLTw6vrK-JbyY_k70e8WOPfhhM/edit?usp=sharing
 
 ## 액티비티 다이어그램
+
 ![image](https://github.com/user-attachments/assets/c3f6aa89-f4f9-4ba3-a450-6081879c406f)
 ![image](https://github.com/user-attachments/assets/3d8b5354-620b-47be-8934-dcec7a851a8e)
 실제 구현한 로직들을 바탕으로 플로우 차트를 작성해보았습니다.
 
+## 파일구조
+
+```
+tcpserver_multigame
+├─ .gitignore
+├─ .prettierrc
+├─ assets
+│  ├─ gate.json
+│  ├─ item.json
+│  ├─ monster.json
+│  └─ monster_spawn.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+└─ src
+   ├─ classes
+   │  ├─ managers
+   │  │  ├─ base.manager.js
+   │  │  └─ interval.manager.js
+   │  └─ models
+   │     ├─ game.class.js
+   │     ├─ monster.class.js
+   │     └─ user.class.js
+   ├─ config
+   │  └─ config.js
+   ├─ constants
+   │  ├─ env.js
+   │  ├─ handlerIds.js
+   │  └─ header.js
+   ├─ db
+   │  ├─ database.js
+   │  ├─ migration
+   │  │  └─ createSchemas.js
+   │  ├─ sql
+   │  │  └─ user_db.sql
+   │  └─ user
+   │     ├─ user.db.js
+   │     └─ user.queries.js
+   ├─ events
+   │  ├─ onConnection.js
+   │  ├─ onData.js
+   │  └─ onError.js
+   ├─ handlers
+   │  ├─ game
+   │  │  ├─ attackMonster.handler.js
+   │  │  ├─ createMonster.handler.js
+   │  │  ├─ disconnect.handler.js
+   │  │  ├─ onCollision.handler.js
+   │  │  └─ updateLocation.handler.js
+   │  ├─ index.js
+   │  └─ user
+   │     ├─ initial.handler.js
+   │     └─ positionVelocity.handler.js
+   ├─ init
+   │  ├─ assets.js
+   │  ├─ index.js
+   │  └─ loadProtos.js
+   ├─ protobuf
+   │  ├─ initial.proto
+   │  ├─ packetNames.js
+   │  ├─ request
+   │  │  ├─ common.proto
+   │  │  └─ game.proto
+   │  └─ response
+   │     └─ response.proto
+   ├─ server.js
+   ├─ session
+   │  ├─ game.session.js
+   │  ├─ monster.session.js
+   │  ├─ sessions.js
+   │  └─ user.session.js
+   └─ utils
+      ├─ dateFormatter.js
+      ├─ db
+      │  └─ testConnection.js
+      ├─ error
+      │  ├─ custom.error.js
+      │  ├─ errorCodes.js
+      │  └─ errorHandler.js
+      ├─ notification
+      │  └─ game.notification.js
+      ├─ parser
+      │  └─ packetParser.js
+      ├─ response
+      │  └─ createResponse.js
+      └─ transformCase.js
+```
+
 ## 도전 기능
+
 ### 마지막 게임 세션에 접속하기
+
 ![image](https://github.com/user-attachments/assets/04ff40e1-bb9c-4d4c-85ea-30e7449c2370)</br>
 게임 시작과 동시에 세션이 하나 생성됩니다. 예시로 제이나와 안두인이 한 세션에 접속한 모습입니다.</br>
 
@@ -48,5 +145,6 @@ https://docs.google.com/spreadsheets/d/1LyrtTOSzJLXQVYb8oYLTw6vrK-JbyY_k70e8WOPf
 ![image](https://github.com/user-attachments/assets/a4cf7603-0ff1-4d0e-8f40-d31b6851e1ea)</br>
 
 ### Latency 를 이용한 추측항법 적용
+
 ![Image](https://github.com/user-attachments/assets/9ea350eb-72b1-4983-8970-01d5b689573e)</br>
 액티비티 다이어그램을 바탕으로 구현하였고, 멀티플레이 환경에서는 위와 같이 서로의 위치가 업데이트 되고 있습니다.</br>
