@@ -24,7 +24,7 @@ export const packetParser = (data) => {
   const userId = packet.userId;
   const clientVersion = packet.version;
 
-  console.log('clientVersion:', clientVersion);
+  // console.log('clientVersion:', clientVersion);
 
   // 여기서 문제가 있다. Protobuf의 bytes 타입은 디코딩되지 않는다.(int, string처럼 명확히 정의된 데이터만 디코딩이 된다. bytes는 어떤 데이터 형식인지 알 수 없는 필드. 주로 이미지, json 등이 이에 해당한다.)
   // 외부 모듈에서 실제 payload를 참조하려면 여기서 추가적인 디코딩 작업을 수행해줘야 한다.

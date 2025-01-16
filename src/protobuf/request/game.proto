@@ -7,3 +7,71 @@ message LocationUpdatePayload {
   float x = 1;
   float y = 2;
 }
+
+message LocationUpdate {
+  repeated UserLocation users = 1;
+
+  message UserLocation {
+      string id = 1;
+      uint32 playerId = 2;
+      float x = 3;
+      float y = 4;
+  }
+}
+
+message PositionVelocity {
+  float velocityX = 1;
+  float velocityY = 2;
+}
+
+message Disconnect {
+}
+
+message OnCollision {
+  float x0 = 1;
+  float y0 = 2;
+  float x1 = 3;
+  float y1 = 4;
+}
+
+message CreateMonsterList {
+  repeated CreateMonster monsters = 1;
+
+  message CreateMonster {
+    float monsterPosX = 1;
+    float monsterPosY = 2;
+    int32 monsterIndex = 3;
+    int32 gateId = 4;
+    int32 monsterHp = 5;
+    int32 monsterDmg = 6;
+    string monsterId = 7;
+    int32 waveCount = 8;
+  }
+}
+
+message MonsterMove {
+  repeated MonstersNextLocation monsterLocations = 1;
+  message MonstersNextLocation {
+    string id = 1;
+    float x = 2;
+    float y = 3;
+  }
+}
+
+message AttackMonster {
+  float monsterX = 1;
+  float monsterY = 2;
+  string monsterId = 3;
+}
+
+message AttackResult {
+  string userId = 1;
+  float x0 = 2;
+  float y0 = 3;
+  float x1 = 4;
+  float y1 = 5;
+  int32 hp = 6;
+  float bulletSpeed = 7;
+  bool isDead = 8;
+  string monsterId = 9;
+}
