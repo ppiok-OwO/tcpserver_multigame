@@ -1,22 +1,36 @@
 <img src="https://img.shields.io/badge/node.js-%23339933.svg?&style=for-the-badge&logo=node.js&logoColor=white" /> <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" />
 
-# 멀티 플레이 게임 서버 - TCP
+# 멀티 플레이 게임 서버 제작하기!! - TCP
+![image](https://github.com/user-attachments/assets/7dde6af8-a36d-48a0-b6e4-537e6da435ba)</br>
 
-뱀서라이크와 핵슬을 짬뽕한 게임을 만들어봤습니다. 게임 자체로는 완성도가 다소 낮지만, 서버 - 클라이언트 패킷 통신을 통해 여러 기능을 구현해보고자 했습니다.
+뱀서라이크와 핵슬을 짬뽕한 멀티 플레이 게임입니다.🐱‍👤 </br>
+게임으로서는 완성도가 다소 낮지만, TCP 연결을 통해 서버 입장에서 다양한 기능을 구현해보고자 했습니다!
+
+## 게임 플레이하기
+https://drive.google.com/file/d/1TCHRNkLBIoRr6Cr2S6peTWQoUKbNm_Sl/view?usp=sharing
+
+- 빌드된 파일은 위 링크를 통해 다운로드 받으실 수 있습니다.
+- 입장과 동시에 게임을 위한 룸이 생성되고, 룸 기준 최대 4인까지 멀티 플레이가 가능합니다.
+- 가까운 적을 자동으로 공격하며 WASD로 움직임이 가능합니다.
+- 아군을 뒤로 밀어낼 수 있습니다! 재밌게 놀아보세요 :)
 
 ## 게임 구상
 
 ![image](https://github.com/user-attachments/assets/fdaa2881-f0b7-4c12-940c-dc26252cfaa9) </br>
-프로젝트 초반에 핵 앤 슬래시 게임을 목표로 하고 그려보았던 다이어그램입니다.
+핵 앤 슬래시 게임을 목표로 하고 그려보았던 다이어그램입니다.</br>
+프로젝트 초반에는 지금 구현된 것보다 더 다양한 기능을 기획했었습니다.😂
 
 ## ERD
 
 ![image](https://github.com/user-attachments/assets/fce05001-f3cb-4c48-9611-c25eecf1e436) </br>
-DB는 MySQL로 위와 같이 구현을 할 생각이었습니다만, 현재는 user 테이블만 사용하는 중입니다.
+DB는 RDS에서 MySQL을 대여받아 사용 중입니다.</br>
+최종적으론 위와 같이 구현을 할 생각이었습니다만..., 현재는 user 테이블만 사용하는 중입니다.
 
 ## 패킷 명세서
 
-패킷의 공통 구조는 아래와 같이 되어있습니다. 패킷의 직렬화는 프로토버프를 형식을 이용하였고, payload의 형식과 핸들러 맵핑은 아래 스프레드시트에서 확인하실 수 있습니다.</br>
+패킷의 공통 구조는 아래와 같이 구성이 되어있습니다. </br>
+패킷의 직렬화는 프로토버프를 형식을 이용하였고, </br>
+payload의 세부 구조과 핸들러 맵핑은 아래 스프레드시트에서 확인하실 수 있습니다.</br>
 
 | 필드 명   | 타입   | 설명                     |
 | --------- | ------ | ------------------------ |
@@ -149,3 +163,7 @@ tcpserver_multigame
 
 ![Image](https://github.com/user-attachments/assets/9ea350eb-72b1-4983-8970-01d5b689573e)</br>
 액티비티 다이어그램을 바탕으로 구현하였고, 멀티플레이 환경에서는 위와 같이 서로의 위치가 업데이트 되고 있습니다.</br>
+
+## 추가 기능
+
+
