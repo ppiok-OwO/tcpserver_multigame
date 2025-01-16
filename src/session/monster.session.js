@@ -59,4 +59,3 @@ export const monsterMove = (gameId, socket) => {
 //     return monsterSessions.splice(index, 1)[0];
 //   }
 // };
-

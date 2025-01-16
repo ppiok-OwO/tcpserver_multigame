@@ -54,5 +54,6 @@ export const config = {
     playerBaseDmg: 50,
     playerBaseRange: 30,
     monsterBaseRange: 5,
+    bulletSpeed: 20,
   },
 };
