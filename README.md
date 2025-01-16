@@ -129,13 +129,14 @@ tcpserver_multigame
 ![image](https://github.com/user-attachments/assets/04ff40e1-bb9c-4d4c-85ea-30e7449c2370)</br>
 게임 시작과 동시에 세션이 하나 생성됩니다. 예시로 제이나와 안두인이 한 세션에 접속한 모습입니다.</br>
 
-![image](https://github.com/user-attachments/assets/252aba0c-c12d-44e3-9867-2f466378e535)</br>
+![image](https://github.com/user-attachments/assets/1494cac9-bc45-4abd-8844-5d502fbcbb75)</br>
 안두인이 접속을 종료하면 그 다음 사용자(가로쉬)가 세션에 입장합니다.</br>
 
-![image](https://github.com/user-attachments/assets/a382fc23-dabe-44c8-bec9-886a33f16a3b)</br>
+![image](https://github.com/user-attachments/assets/a5bcd308-e24b-44a1-98e0-60d5b54e9f20)</br>
 한 번 접속한 유저는 최근 세션의 ID를 DB에 저장하게 됩니다.</br>
 
-![image](https://github.com/user-attachments/assets/76d92e83-59a6-4722-9f10-f57986e6363c)</br>
+![image](https://github.com/user-attachments/assets/3bec8a5e-1f5a-4233-87a6-5933c67d2405)
+</br>
 마지막으로 저장된 세션으로 접속을 하려하지만…! 테스트 중 한 세션의 정원을 2로 설정해 두어서 새로운 게임 세션이 생성된 모습입니다.</br>
 
 ![image](https://github.com/user-attachments/assets/416b36d2-243d-4951-8de1-b58d65fc5a0b)</br>
