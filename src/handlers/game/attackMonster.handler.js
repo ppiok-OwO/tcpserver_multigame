@@ -1,3 +1,4 @@
+import { config } from '../../config/config.js';
 import { getGameSession } from '../../session/game.session.js';
 import { getUserById } from '../../session/user.session.js';
 import CustomError from '../../utils/error/custom.error.js';
@@ -57,17 +58,27 @@ export const attackMonsterHandler = async ({ socket, userId, payload }) => {
   if (damagedMonsterHp <= 0) {
     isDead = true;
     gameSession.removeMonster(monsterId);
-    console.log(
-      `${monsterId}는 죽었다! 몬스터 체력 : ${monster.hp} isDead: ${isDead}`,
-    );
+    // console.log(
+    //   `${monsterId}는 죽었다! 몬스터 체력 : ${monster.hp} isDead: ${isDead}`,
+    // );
   } else {
     isDead = false;
-    console.log(
-      `${monsterId}는 죽지 않았다! 몬스터 체력 : ${monster.hp} isDead: ${isDead}`,
-    );
+    // console.log(
+    //   `${monsterId}는 죽지 않았다! 몬스터 체력 : ${monster.hp} isDead: ${isDead}`,
+    // );
   }
 
-  const data = { hp: damagedMonsterHp, isDead, monsterId };
+  const data = {
+    userId,
+    x0: user.x,
+    y0: user.y,
+    x1: monsterX,
+    y1: monsterY,
+    hp: damagedMonsterHp,
+    bulletSpeed: config.ingame.bulletSpeed,
+    isDead,
+    monsterId,
+  };
   const packet = attackPacket(data);
 
   // socket.write(packet);

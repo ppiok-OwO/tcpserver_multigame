@@ -65,7 +65,13 @@ message AttackMonster {
 }
 
 message AttackResult {
-  int32 hp = 1;
-  bool isDead = 2;
-  string monsterId = 3;
+  string userId = 1;
+  float x0 =2;
+  float y0 = 3;
+  float x1 = 4;
+  float y1 = 5;
+  int32 hp = 6;
+  float bulletSpeed = 7;
+  bool isDead = 8;
+  string monsterId = 9;
 }

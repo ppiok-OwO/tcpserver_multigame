@@ -34,7 +34,7 @@ class Game {
     this.intervalManager.updateMonsterPosition(
       user.id,
       () => monsterMove(this.id, user.socket),
-      500,
+      100,
     );
     this.intervalManager.checkPong(user.id, user.checkPong.bind(user), 3000); // 연결 상태 체크
   }
