@@ -37,17 +37,18 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
       return value.id === monsters[0].gateId;
     });
 
-    // 유저의 현재 좌표가 해당 게이트를 활성화 할 수 있는지 검증하기
-    const offset = Math.sqrt(
-      Math.pow(gate.position.x - user.x, 2) +
-        Math.pow(gate.position.y - user.y, 2),
-    );
-    if (offset > config.ingame.interactionOffset) {
-      // throw new CustomError(
-      //   ErrorCodes.INVALID_POSITION,
-      //   '게이트를 활성화할 수 없는 위치입니다.',
-      // );
-      console.log('게이트를 활성화할 수 없는 위치입니다.');
+    // waveCount가 0이라면 유저의 현재 좌표가 해당 게이트를 활성화 할 수 있는지 검증하기
+    if (monsters[0].waveCount === 0) {
+      const offset = Math.sqrt(
+        Math.pow(gate.position.x - user.x, 2) +
+          Math.pow(gate.position.y - user.y, 2),
+      );
+      if (offset > config.ingame.interactionOffset) {
+        throw new CustomError(
+          ErrorCodes.INVALID_POSITION,
+          '게이트를 활성화할 수 없는 위치입니다.',
+        );
+      }
     }
 
     let createdMonsters = [];
@@ -61,15 +62,14 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
         monster.gateId,
       );
 
+      // 게임 세션에 몬스터 객체 추가
       gameSession.addMonster(monsterObj);
       createdMonsters.push({ ...monster, monsterId: monsterObj.id });
     }
 
-    // 게임 세션의 몬스터 배열을 패킷에 담아서 클라로 보내기
-    // const data = createMonsterPacket(gameSession.monsters);
+    // ID가 발급된 몬스터 배열을 패킷에 담아서 클라로 보내기
     const data = createMonsterPacket(createdMonsters);
-    // console.log('data: ', data);
-
+    // 브로드 캐스트
     gameSession.broadcast(data);
   } catch (err) {
     handleError(socket, err);
@@ -77,12 +77,11 @@ export const createMonsterHandler = async ({ socket, userId, payload }) => {
 };
 
 // =============================================== //
-// 만약 서버에서 한다면...
-// TO DO: 몬스터의 종류는 monster.json에서 유저 레벨+5 이하인 몬스터를 랜덤하게 고르겠음
-// 하지만 지금은 0부터 3 중에 랜덤한 걸 고르면 됨
+// 만약 몬스터 데이터도 서버에서 생성한다면...
+// TO DO: 몬스터의 종류는 monster.json에서 유저 레벨+5 이하인 몬스터를 랜덤하게 고르기
 // const randomIndex = Math.floor(Math.random(0, 4));
 
-// // 몬스터 스폰 위치는 gate에서 100 픽셀 이내의 어딘가로 정하겠음
+// // 몬스터 스폰 위치는 gate에서 100 픽셀 이내의 어딘가로 정하기
 // const monsterPosX = Math.floor(Math.random(0, 100));
 // const monsterPosY = Math.floor(Math.random(0, 100));
 
