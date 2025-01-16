@@ -165,5 +165,69 @@ tcpserver_multigame
 액티비티 다이어그램을 바탕으로 구현하였고, 멀티플레이 환경에서는 위와 같이 서로의 위치가 업데이트 되고 있습니다.</br>
 
 ## 추가 기능
+### 몬스터 게이트
+```
+{
+  "name": "gate",
+  "version": "1.0.0",
+  "data": [
+    {
+      "id": 1001,
+      "monsterLv": 0,
+      "waveCount": 2,
+      "monstersPerWave": 5,
+      "rewardPool": [],
+      "position": { "x": -10, "y": 10 }
+    },
+    {
+      "id": 1002,
+      "monsterLv": 5,
+      "waveCount": 3,
+      "monstersPerWave": 6,
+      "rewardPool": [],
+      "position": { "x": -10, "y": -10 }
+    },
+    {
+      "id": 1003,
+      "monsterLv": 10,
+      "waveCount": 3,
+      "monstersPerWave": 6,
+      "rewardPool": [],
+      "position": { "x": 10, "y": 10 }
+    },
+    {
+      "id": 1004,
+      "monsterLv": 15,
+      "waveCount": 4,
+      "monstersPerWave": 7,
+      "rewardPool": [],
+      "position": { "x": 10, "y": -10 }
+    },
+    {
+      "id": 1005,
+      "monsterLv": 20,
+      "waveCount": 4,
+      "monstersPerWave": 7,
+      "rewardPool": [],
+      "position": { "x": -20, "y": 20 }
+    },
+    {
+      "id": 1006,
+      "monsterLv": 25,
+      "waveCount": 5,
+      "monstersPerWave": 8,
+      "rewardPool": [],
+      "position": { "x": -20, "y": -20 }
+    }
+  ]
+}
+```
+서버 측의 연산을 줄이고 다양한 게이트를 생성하기 위해 게임 에셋을 json으로 제작하게 되었습니다.</br>
+클라이언트는 이를 기반으로 몬스터 게이트와 몬스터 웨이브를 생성하게 됩니다.</br>
+서버 또한 해당 파일을 통해 몬스터의 세부 데이터를 계산하고 있습니다.</br>
 
+### 게임 종료 기능
+게임 종료와 관련된 고질적인 버그를 겪게 되었고, 문제를 여러 방면에서 해결해보았습니다.</br>
+코드 내용이 길어서 블로그에 따로 글을 게시하였습니다.</br>
 
+https://princeali.tistory.com/115
