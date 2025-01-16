@@ -1,5 +1,7 @@
+import Monster from '../classes/models/monster.class.js';
 import { monsterMovePacket } from '../utils/notification/game.notification.js';
 import { getGameSession } from './game.session.js';
+import { monsterSessions } from './sessions.js';
 
 // 유저마다 인터벌로 monsterMove 함수를 호출하게 된다.
 export const monsterMove = (gameId, socket) => {
@@ -39,3 +41,22 @@ export const monsterMove = (gameId, socket) => {
 
   socket.write(data);
 };
+
+// 서버에서 모든 게임 세션의 몬스터를 관리하려면 아래 코드를 사용하면 된다.
+// 그러나 몬스터가 대량으로 생성되는 게임은 부하가 심할 수 있다.
+// 따라서, 각 게임의 세션별로 몬스터를 관리하기로 결정했다.(game.class.js 파일 참고)
+// export const addMonster = (x, y, index, hp, dmg, gateId) => {
+//   const monster = new Monster(x, y, index, hp, dmg, gateId);
+//   monsterSessions.push(monster);
+//   return monster;
+// };
+
+// export const removeMonster = (monsterId) => {
+//   const index = monsterSessions.findIndex(
+//     (monster) => monster.id === monsterId,
+//   );
+//   if (index !== -1) {
+//     return monsterSessions.splice(index, 1)[0];
+//   }
+// };
+

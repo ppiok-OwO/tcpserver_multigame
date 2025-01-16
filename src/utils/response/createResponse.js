@@ -1,6 +1,5 @@
 import { config } from '../../config/config.js';
 import { getProtoMessages } from '../../init/loadProtos.js';
-import { getNextSequence } from '../../session/user.session.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 
 // response를 생성한다.

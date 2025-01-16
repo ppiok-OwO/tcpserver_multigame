@@ -10,5 +10,6 @@ export const ErrorCodes = {
   INVALID_SEQUENCE: 10008,
   GAME_NOT_FOUND: 10009,
   INVALID_POSITION: 10010,
+  MONSTER_NOT_FOUND: 10011,
   // 추가적인 에러 코드들
 };
