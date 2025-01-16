@@ -4,13 +4,22 @@
 export const packetNames = {
   common: {
     CommonPacket: 'common.CommonPacket',
-    Ping: 'common.Ping'
+    Ping: 'common.Ping',
   },
   initial: {
     InitialPayload: 'initial.InitialPayload',
+    InitialResponse: 'initial.InitialResponse',
   },
   game: {
     LocationUpdatePayload: 'game.LocationUpdatePayload',
+    LocationUpdate: 'game.LocationUpdate',
+    PositionVelocity: 'game.PositionVelocity',
+    Disconnect: 'game.Disconnect',
+    OnCollision: 'game.OnCollision',
+    CreateMonsterList: 'game.CreateMonsterList',
+    MonsterMove: 'game.MonsterMove',
+    AttackMonster: 'game.AttackMonster',
+    AttackResult: 'game.AttackResult',
   },
   response: {
     Response: 'response.Response',

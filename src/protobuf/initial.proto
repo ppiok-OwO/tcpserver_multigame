@@ -10,6 +10,11 @@ message InitialPayload {
   float latency = 3; // 필수
 }
 
+message InitialResponse {
+  float x = 1;
+  float y = 2;
+}
+
 // Protobuf.js는 위 메시지를 다음과 같이 표현합니다:
 /**
 PayloadType = {

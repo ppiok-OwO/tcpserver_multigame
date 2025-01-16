@@ -7,6 +7,10 @@ import { getUserById, getUserBySocket } from '../session/user.session.js';
 import { getProtoMessages } from '../init/loadProtos.js';
 import CustomError from '../utils/error/custom.error.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
+import initialHandler from '../handlers/user/initial.handler.js';
+import updateLocationHandler from '../handlers/game/updateLocation.handler.js';
+import { getGameSession } from '../session/game.session.js';
+import { onCollisionHandler } from '../handlers/game/onCollision.handler.js';
 
 // 데이터는 스트림을 통해 청크단위로 조금씩 전송받게 되는데 우리가 원하는 데이터가 들어올때까지 계속 대기하다가 원하는 데이터가 도착하면 처리하는 형태입니다.
 export const onData = (socket) => async (data) => {
@@ -33,10 +37,6 @@ export const onData = (socket) => async (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, length);
       socket.buffer = socket.buffer.slice(length);
 
-      console.log(`length: ${length}`);
-      console.log(`packetType: ${packetType}`);
-      console.log(packet);
-
       try {
         switch (packetType) {
           case PACKET_TYPE.PING:
@@ -45,50 +45,46 @@ export const onData = (socket) => async (data) => {
               const Ping = protoMessages.common.Ping;
               const pingMessage = Ping.decode(packet);
               const user = getUserBySocket(socket);
-              if (!user) {
-                throw new CustomError(
-                  ErrorCodes.USER_NOT_FOUND,
-                  '유저를 찾을 수 없습니다.',
-                );
+              if (user) {
+                await user.handlePong(pingMessage);
               }
-              user.handlePong(pingMessage);
             }
             break;
-          case PACKET_TYPE.NORMAL: {
-            const { handlerId, payload, userId } = packetParser(packet);
+          case PACKET_TYPE.NORMAL:
+            {
+              const { handlerId, payload, userId } = packetParser(packet);
+              // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
+              const handler = getHandlerById(handlerId);
 
-            const user = getUserById(userId);
-            // 유저가 접속해 있는 상황에서 시퀀스 검증
-            // if (user && user.sequence !== sequence) {
-            //   throw new CustomError(
-            //     ErrorCodes.INVALID_SEQUENCE,
-            //     '잘못된 호출 값입니다. ',
-            //   );
-            // }
+              // 함수 호출
+              await handler({
+                socket,
+                userId,
+                payload,
+              });
+            }
+            break;
+          // case PACKET_TYPE.LOCATION:
+          //   {
+          //     // 위치 동기화(브로드 캐스트)
+          //     const { payload, userId } = packetParser(packet);
+          //     updateLocationHandler({ socket, userId, payload });
+          //   }
+          //   break;
+          // case PACKET_TYPE.ONCOLLISION: {
+          //   const { payload, userId } = packetParser(packet);
+          //   // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
 
-            // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
-            const handler = getHandlerById(handlerId);
-            // 함수 호출
-            await handler({
-              socket,
-              userId,
-              payload,
-            });
-          }
-          case PACKET_TYPE.LOCATION: {
-            const { handlerId, payload, userId } = packetParser(packet);
-            const user = getUserById(userId);
-            // 핸들러ID를 통해 특정 핸들러 함수를 변수에 할당
-            const handler = getHandlerById(handlerId);
-            // 함수 호출
-            await handler({
-              socket,
-              userId,
-              payload,
-            });
-          }
+          //   // 함수 호출
+          //   await onCollisionHandler({
+          //     socket,
+          //     userId,
+          //     payload,
+          //   });
+          // }
         }
       } catch (error) {
+        console.error('!!!!!!', error);
         handleError(socket, error);
       }
     } else {
