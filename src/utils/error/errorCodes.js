@@ -12,5 +12,6 @@ export const ErrorCodes = {
   INVALID_POSITION: 10010,
   MONSTER_NOT_FOUND: 10011,
   ABUSER: 10012,
+  USER_EXIST_ALREADY: 10013,
   // 추가적인 에러 코드들
 };

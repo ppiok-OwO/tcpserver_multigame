@@ -34,6 +34,10 @@ const initialHandler = async ({ socket, userId, payload }) => {
 
     if (!user) {
       user = await createUser(deviceId, playerId, latency);
+    } else if (user && getUserById(userId)) {
+      console.log('이미 접속 중인 ID입니다. 접속을 차단합니다.');
+      socket.destroy();
+      return;
     } else {
       await updateUserLogin(user.id);
       x = user.lastLocationX;
