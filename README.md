@@ -10,6 +10,7 @@
 https://drive.google.com/file/d/1TCHRNkLBIoRr6Cr2S6peTWQoUKbNm_Sl/view?usp=sharing
 
 - 빌드된 파일은 위 링크를 통해 다운로드 받으실 수 있습니다.
+- IP : 3.34.124.193 / PORT : 5555
 - 입장과 동시에 게임을 위한 룸이 생성되고, 룸 기준 최대 4인까지 멀티 플레이가 가능합니다.
 - 가까운 적을 자동으로 공격하며 WASD로 움직임이 가능합니다.
 - 아군을 뒤로 밀어낼 수 있습니다! 재밌게 놀아보세요 :)
